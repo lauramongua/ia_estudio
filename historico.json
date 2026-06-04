@@ -1,0 +1,69 @@
+[
+  {
+    "timestamp": "2026-06-04T12:52:02.752615",
+    "materia": "",
+    "dificultad": "Media",
+    "modelo": "gemma2:9b",
+    "examen": {
+      "materia": "Desarrollo de aplicaciones con IA",
+      "dificultad": "Media",
+      "preguntas": [
+        {
+          "enunciado": "¿Cuál es la función principal del proyecto propuesto?",
+          "opciones": {
+            "A": "Crear un chatbot para ayudar con el estudio.",
+            "B": "Desarrollar una plataforma de aprendizaje colaborativo.",
+            "C": "Construir una aplicación que genere exámenes automáticamente a partir de documentos subidos.",
+            "D": "Implementar un sistema de reconocimiento facial para la asistencia en clase."
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto describe claramente el objetivo del proyecto como crear una herramienta que permita subir documentos, generar preguntas tipo examen y corregirlas automáticamente."
+        },
+        {
+          "enunciado": "¿Qué tipo de preguntas se generarán en la aplicación?",
+          "opciones": {
+            "A": "Preguntas abiertas con respuestas extensas.",
+            "B": "Preguntas de opción múltiple con una sola respuesta correcta.",
+            "C": "Preguntas con opciones de rellenar espacios en blanco.",
+            "D": "Preguntas basadas en imágenes o videos."
+          },
+          "opcion_correcta": "B",
+          "explicacion": "El texto menciona que las preguntas serán de estilo test, con respuestas seleccionables tipo A, B, C y D."
+        },
+        {
+          "enunciado": "¿Qué característica permitiría a los usuarios mejorar su aprendizaje?",
+          "opciones": {
+            "A": "Un modo 'repaso inteligente' que genera más preguntas sobre los temas en los que el usuario suele fallar.",
+            "B": "La posibilidad de compartir sus exámenes con otros estudiantes para obtener feedback.",
+            "C": "Acceso a un diccionario integrado con definiciones y ejemplos.",
+            "D": "Integración con plataformas de videoconferencia para realizar clases virtuales."
+          },
+          "opcion_correcta": "A",
+          "explicacion": "El texto menciona específicamente el modo 'repaso inteligente' como una característica que genera más preguntas sobre los temas débiles del usuario."
+        },
+        {
+          "enunciado": "¿Qué tecnologías se sugieren para desarrollar la aplicación?",
+          "opciones": {
+            "A": "Java, React y MongoDB.",
+            "B": "Python, Flask/FastAPI, SQLite y HTML/CSS/JavaScript.",
+            "C": "PHP, Laravel y PostgreSQL.",
+            "D": "C++, Angular y Redis."
+          },
+          "opcion_correcta": "B",
+          "explicacion": "El texto menciona Python, Flask o FastAPI, SQLite, HTML/CSS/JavaScript como tecnologías potenciales para la aplicación."
+        },
+        {
+          "enunciado": "¿Cuál es el objetivo final del proyecto?",
+          "opciones": {
+            "A": "Crear una aplicación que simule un profesor virtual capaz de impartir clases en tiempo real.",
+            "B": "Desarrollar una herramienta de estudio inteligente que ayude a los usuarios a convertir sus apuntes en exámenes y mejorar su aprendizaje gradualmente.",
+            "C": "Implementar un sistema de análisis predictivo para detectar las necesidades de aprendizaje individuales de cada estudiante.",
+            "D": "Generar contenido educativo personalizado basado en la inteligencia artificial."
+          },
+          "opcion_correcta": "B",
+          "explicacion": "El texto menciona que el objetivo final es crear una herramienta que convierta apuntes en exámenes, ayude a los usuarios a mejorar su aprendizaje y actúe como un "
+        }
+      ]
+    }
+  }
+]

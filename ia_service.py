@@ -1,6 +1,6 @@
 import ollama
 
-def generar_examen_ia(texto_documento, materia, dificultad, modelo_elegido):
+def generar_examen_ia(texto_documento, materia, dificultad, modelo_elegido, num_preguntas=5):
     instrucciones = f"""
     Actúa como un profesor experto en la materia de {materia}.
     Tu tarea es analizar el siguiente texto de estudio y generar un examen tipo test riguroso de nivel de dificultad {dificultad}.
@@ -9,8 +9,8 @@ def generar_examen_ia(texto_documento, materia, dificultad, modelo_elegido):
     {texto_documento}
     
     REGLAS ESTRICTAS DE RESPUESTA:
-    1. Debes generar exactamente 5 preguntas de opción múltiple basadas exclusivamente en el texto proporcionado.
-    2. Cada pregunta debe tener exactamente 3 opciones de respuesta (A, B, C).
+    1. Debes generar exactamente {num_preguntas} preguntas de opción múltiple basadas exclusivamente en el texto proporcionado.
+    2. Cada pregunta debe tener **4** opciones de respuesta (A, B, C, D).
     3. Tu respuesta debe ser OBLIGATORIAMENTE un objeto JSON válido. No incluyas introducciones, ni saludos, ni bloques de código markdown como ```json. Solo el JSON puro.
     
     ESTRUCTURA EXACTA DEL JSON QUE DEBES DEVOLVER:
@@ -23,7 +23,8 @@ def generar_examen_ia(texto_documento, materia, dificultad, modelo_elegido):
                 "opciones": {{
                     "A": "Primera opción",
                     "B": "Segunda opción",
-                    "C": "Tercera opción"
+                    "C": "Tercera opción",
+                    "D": "Cuarta opción"
                 }},
                 "opcion_correcta": "A",
                 "explicacion": "Explicación detallada de por qué esa opción es la correcta basada en el texto."

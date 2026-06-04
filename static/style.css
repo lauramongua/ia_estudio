@@ -20,14 +20,23 @@ body {
 .navbar li { color: #b0b0b0; cursor: pointer; transition: 0.3s; font-weight: 500; }
 .navbar li:hover { color: #bb86fc; }
 
+.navbar ul li a {
+    color: #b0b0b0;
+    text-decoration: none;
+    font-weight: 500;
+}
+.navbar ul li a:hover { color: #bb86fc; }
+
 /* Menú Hamburguesa (oculto en escritorio) */
 .menu-toggle { display: none; font-size: 28px; cursor: pointer; color: #bb86fc; }
 
-/* Contenido Principal */
-.main-content { 
-    padding: 40px; 
-    max-width: 600px; 
-    margin: auto; 
+/* Contenido Principal - usar todo el ancho disponible */
+.main-content {
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: none;
+    margin: 0;
 }
 h1 { color: #bb86fc; margin-bottom: 20px; }
 
@@ -44,6 +53,54 @@ button {
     font-weight: bold; margin-top: 25px; transition: 0.3s; 
 }
 button:hover { background-color: #9965f4; }
+
+/* Layout para crear examen */
+/* Contenedor del formulario dentro de .examenContent */
+.examenContainer {
+    width: 100%;
+}
+
+/* Área que contiene el formulario y el resultado, permite scroll vertical */
+.examenContent {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+}
+
+/* Wrapper for crear examen page */
+.crearExamenWrapper {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Documentos a la izquierda */
+/* Sidebar izquierdo con lista de documentos */
+.documentosSeleccionados {
+    flex: 0 0 250px; /* ancho fijo */
+    background: #1e1e1e;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    overflow-y: auto;
+    max-height: calc(100vh - 150px);
+}
+
+
+.documentosSeleccionados h3 {
+    margin-top: 0;
+    font-size: 1rem;
+    color: #bb86fc;
+}
+
+.documentosSeleccionados ul { list-style: none; padding-left: 0; }
+.documentosSeleccionados li { margin-bottom: 8px; display: flex; align-items: center; }
+.documentosSeleccionados input[type=checkbox] { margin-right: 6px; }
 
 /* Área de Resultado */
 #resultado { 
@@ -62,4 +119,13 @@ button:hover { background-color: #9965f4; }
         background: #151921; padding: 20px;
     }
     .navbar ul.active { display: flex; } /* Clase que activaremos con JS */
+
+    .crearExamenWrapper {
+        flex-direction: column;
+    }
+    .documentosSeleccionados {
+        width: 100%;
+        max-height: none;
+        margin-bottom: 20px;
+    }
 }
