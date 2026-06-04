@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>EstudiaIA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <h2>EstudiaIA</h2>
+        <ul>
+            <li> Inicio</li>
+            <li> Documentos</li>
+            <li> Crear examen</li>
+            <li> Historial</li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <h1>Crear examen</h1>
+        
+        <form id="formExamen">
+            <label for="pdf">Sube tu PDF:</label>
+            <input type="file" id="pdf" name="pdf" accept=".pdf" required>
+
+            <label for="modelo_ollama">Selecciona tu IA:</label>
+            <select name="modelo_ollama" id="modelo_ollama">
+                <option value="qwen2.5-coder:7b">Qwen 2.5 Coder (Programación)</option>
+                <option value="gemma2:9b">Gemma 2 (Análisis Detallado)</option>
+                <option value="llama3.1:8b">Llama 3.1 (Equilibrado)</option>
+                <option value="llama3.2:3b">Llama 3.2 (Velocidad)</option>
+                <option value="mistral:7b">Mistral (Estable)</option>
+            </select>
+
+            <button type="submit">¡Generar Examen!</button>
+        </form>
+
+        <div id="resultado">Esperando documento...</div>
+    </main>
+
+    <script>
+    function toggleMenu() {
+        // Seleccionamos la lista <ul> que está dentro de la .navbar
+        const menu = document.querySelector('.navbar ul');
+        // Alternamos la clase 'active' para mostrarla u ocultarla
+        menu.classList.toggle('active');
+    }
+</script>
+</body>
+</html>

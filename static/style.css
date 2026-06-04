@@ -1,0 +1,65 @@
+/* Estilos Globales */
+body { 
+    margin: 0; 
+    font-family: 'Segoe UI', Tahoma, sans-serif; 
+    background-color: #121212; 
+    color: #e0e0e0; 
+}
+
+/* Navbar Horizontal Superior */
+.navbar { 
+    background: #151921; 
+    padding: 15px 40px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between;
+    border-bottom: 1px solid #333;
+}
+.navbar h2 { color: #bb86fc; margin: 0; font-size: 1.5rem; }
+.navbar ul { list-style: none; display: flex; gap: 20px; padding: 0; margin: 0; }
+.navbar li { color: #b0b0b0; cursor: pointer; transition: 0.3s; font-weight: 500; }
+.navbar li:hover { color: #bb86fc; }
+
+/* Menú Hamburguesa (oculto en escritorio) */
+.menu-toggle { display: none; font-size: 28px; cursor: pointer; color: #bb86fc; }
+
+/* Contenido Principal */
+.main-content { 
+    padding: 40px; 
+    max-width: 600px; 
+    margin: auto; 
+}
+h1 { color: #bb86fc; margin-bottom: 20px; }
+
+/* Formulario */
+form { background: #1e1e1e; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+label { display: block; margin-top: 15px; font-weight: bold; }
+select, input[type="file"], button { 
+    width: 100%; padding: 12px; margin-top: 8px; 
+    border-radius: 4px; border: 1px solid #333; 
+    background: #2c2c2c; color: white; box-sizing: border-box;
+}
+button { 
+    background-color: #bb86fc; border: none; cursor: pointer; 
+    font-weight: bold; margin-top: 25px; transition: 0.3s; 
+}
+button:hover { background-color: #9965f4; }
+
+/* Área de Resultado */
+#resultado { 
+    margin-top: 25px; white-space: pre-wrap; 
+    background: #1e1e1e; padding: 20px; border-radius: 5px; 
+    border-left: 4px solid #bb86fc; min-height: 100px;
+}
+
+/* Ajustes para Móviles (Responsive) */
+@media (max-width: 768px) {
+    .menu-toggle { display: block; }
+    .navbar ul { 
+        display: none; /* Ocultamos el menú horizontal */
+        flex-direction: column; width: 100%; 
+        position: absolute; top: 60px; left: 0; 
+        background: #151921; padding: 20px;
+    }
+    .navbar ul.active { display: flex; } /* Clase que activaremos con JS */
+}
