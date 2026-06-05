@@ -102,6 +102,11 @@
                         <option value="{{ modelo }}">{{ modelo }}</option>
                     {% endfor %}
                 </select>
+
+                <!-- Número de preguntas a responder -->
+                <label for="num_responder">Número de preguntas a responder:</label>
+                <input type="number" id="num_responder" name="num_responder" min="1" value="5" />
+
                 <button type="submit">¡Generar Examen!</button>
                 <!-- Cargar lista de PDFs guardados en el sidebar izquierdo -->
                 <script>
