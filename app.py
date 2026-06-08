@@ -6,6 +6,7 @@ from ia_service import generar_examen_ia
 import json
 import datetime
 import requests
+import re
 
 app = Flask(__name__)
 
@@ -15,14 +16,30 @@ app = Flask(__name__)
 def index():
     hist_path = os.path.join(os.getcwd(), 'historico.json')
     total_examenes = 0
+    avg_score = None
     if os.path.isfile(hist_path):
         try:
             with open(hist_path, encoding='utf-8') as f:
-                total_examenes = len(json.load(f))
+                historial = json.load(f)
+            total_examenes = len(historial)
+            notas = []
+            for entry in historial:
+                preguntas = entry.get('examen', {}).get('preguntas', [])
+                respondidas = [p for p in preguntas if p.get('seleccion_usuario')]
+                if not preguntas or not respondidas:
+                    continue
+                correctas = sum(
+                    1 for p in preguntas
+                    if p.get('seleccion_usuario', '').strip().upper()
+                    == p.get('opcion_correcta', '').strip().upper()
+                )
+                notas.append((correctas / len(preguntas)) * 10)
+            if notas:
+                avg_score = round(sum(notas) / len(notas), 1)
         except Exception:
             pass
-    return render_template('index.html', seccion='inicio', total_examenes=total_examenes)
-
+    return render_template('index.html', seccion='inicio',
+                           total_examenes=total_examenes, avg_score=avg_score)
 @app.route('/documentos')
 def documentos():
     return render_template('index.html', seccion='documentos')
@@ -43,6 +60,55 @@ def historial():
             pass
     return render_template('index.html', seccion='historial', historico=historico)
 
+@app.route('/api/repetir-examen/<int:index>', methods=['POST'])
+def repetir_examen(index):
+    try:
+        hist_path = os.path.join(os.getcwd(), 'historico.json')
+        if not os.path.isfile(hist_path):
+            return jsonify({"status": "error", "message": "Historial no encontrado."}), 404
+        with open(hist_path, encoding='utf-8') as f:
+            historial = json.load(f)
+        if index < 0 or index >= len(historial):
+            return jsonify({"status": "error", "message": "Índice fuera de rango."}), 400
+
+        entry = historial[index]
+        texto_pdf = entry.get('texto_pdf', '')
+        if not texto_pdf:
+            return jsonify({"status": "error", "message": "Este examen no tiene texto guardado. Genera uno nuevo subiendo el PDF."}), 400
+
+        data = request.get_json() or {}
+        materia      = data.get('materia',      entry.get('materia', 'Materia General'))
+        dificultad   = data.get('dificultad',   entry.get('dificultad', 'Media'))
+        modelo       = data.get('modelo',       entry.get('modelo', 'gemma2:9b'))
+        num_preguntas = int(data.get('num_preguntas', len(entry.get('examen', {}).get('preguntas', [])) or 5))
+
+        respuesta_json = generar_examen_ia(texto_pdf, materia, dificultad, modelo, num_preguntas)
+
+        texto = respuesta_json.strip()
+        if texto.startswith("```"):
+            texto = re.sub(r'^```(?:json)?\s*', '', texto)
+            texto = re.sub(r'\s*```$', '', texto)
+        start, end = texto.find('{'), texto.rfind('}')
+        if start != -1 and end != -1:
+            texto = texto[start:end+1]
+        datos_examen = json.loads(texto)
+
+        new_entry = {
+            "timestamp":     datetime.datetime.now().isoformat(),
+            "nombre_examen": materia,
+            "materia":       materia,
+            "dificultad":    dificultad,
+            "modelo":        modelo,
+            "texto_pdf":     texto_pdf,
+            "examen":        datos_examen
+        }
+        historial.append(new_entry)
+        with open(hist_path, 'w', encoding='utf-8') as f:
+            json.dump(historial, f, ensure_ascii=False, indent=2)
+
+        return jsonify({"status": "success", "examen": datos_examen, "hist_index": len(historial) - 1})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 def obtener_modelos_ollama():
     try:
@@ -145,9 +211,23 @@ def listar_documentos_api():
         return jsonify([])
     return jsonify([f for f in os.listdir(upload_folder) if f.lower().endswith('.pdf')])
 
-
 # ── API: Generar examen ──────────────────────────────────────────────────────
 
+@app.route('/api/eliminar-documento/<string:filename>', methods=['DELETE'])
+def eliminar_documento(filename):
+    try:
+        upload_folder = os.path.join(os.getcwd(), 'uploads')
+        safe_name = secure_filename(filename)
+        if not safe_name or not safe_name.lower().endswith('.pdf'):
+            return jsonify({"status": "error", "message": "Archivo inválido."}), 400
+        path = os.path.join(upload_folder, safe_name)
+        if not os.path.isfile(path):
+            return jsonify({"status": "error", "message": "Archivo no encontrado."}), 404
+        os.remove(path)
+        return jsonify({"status": "success", "removed": safe_name})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+    
 @app.route('/api/generar-examen', methods=['POST'])
 def procesar_examen():
     try:
@@ -186,7 +266,18 @@ def procesar_examen():
         print(f"[Web] Generando examen · modelo={modelo} · preguntas={num_preguntas}")
 
         respuesta_json = generar_examen_ia(texto_extraido, materia, dificultad, modelo, num_preguntas)
-        datos_examen   = json.loads(respuesta_json)
+        # Limpiar respuesta: quitar bloques markdown y texto fuera del JSON
+        texto = respuesta_json.strip()
+        # Eliminar ```json ... ``` o ``` ... ```
+        if texto.startswith("```"):
+            texto = re.sub(r'^```(?:json)?\s*', '', texto)
+            texto = re.sub(r'\s*```$', '', texto)
+        # Extraer solo el objeto JSON principal (desde { hasta la última })
+        start = texto.find('{')
+        end = texto.rfind('}')
+        if start != -1 and end != -1:
+            texto = texto[start:end+1]
+        datos_examen = json.loads(texto)
 
         # Guardar en historico.json
         hist_path = os.path.join(os.getcwd(), 'historico.json')
@@ -204,6 +295,7 @@ def procesar_examen():
             "materia":      materia,
             "dificultad":   dificultad,
             "modelo":       modelo,
+            "texto_pdf":     texto_extraido, 
             "examen":       datos_examen
         }
         historial.append(entry)

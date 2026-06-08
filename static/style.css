@@ -183,4 +183,43 @@ button:hover { background-color: #9965f4; }
         max-height: none;
         margin-bottom: 20px;
     }
+
+     /* ── NUEVO ── */
+    .stats-cards {
+        flex-direction: column;
+    }
+
+    .stats-cards .card {
+        flex: 1 1 100%;
+    }
+
+    .btn-action {
+        padding: 6px 12px;
+        font-size: 0.85em;
+    }
+
+    #listaDocumentos li {
+        flex-wrap: wrap;
+    }
+}
+/* Botón de acción pequeño (eliminar documentos, borrar historial) */
+.btn-action {
+    width: auto;
+    padding: 4px 10px;
+    margin-top: 0;
+    font-size: 0.8em;
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.btn-danger {
+    background: #ab65cd8a;
+}
+
+.btn-danger:hover {
+    background: #573379;
 }

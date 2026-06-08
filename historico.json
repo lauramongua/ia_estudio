@@ -1,192 +1,311 @@
 [
   {
-    "timestamp": "2026-06-04T12:52:02.752615",
-    "materia": "",
-    "dificultad": "Media",
-    "modelo": "gemma2:9b",
-    "examen": {
-      "materia": "Desarrollo de aplicaciones con IA",
-      "dificultad": "Media",
-      "preguntas": [
-        {
-          "enunciado": "¿Cuál es la función principal del proyecto propuesto?",
-          "opciones": {
-            "A": "Crear un chatbot para ayudar con el estudio.",
-            "B": "Desarrollar una plataforma de aprendizaje colaborativo.",
-            "C": "Construir una aplicación que genere exámenes automáticamente a partir de documentos subidos.",
-            "D": "Implementar un sistema de reconocimiento facial para la asistencia en clase."
-          },
-          "opcion_correcta": "C",
-          "explicacion": "El texto describe claramente el objetivo del proyecto como crear una herramienta que permita subir documentos, generar preguntas tipo examen y corregirlas automáticamente."
-        },
-        {
-          "enunciado": "¿Qué tipo de preguntas se generarán en la aplicación?",
-          "opciones": {
-            "A": "Preguntas abiertas con respuestas extensas.",
-            "B": "Preguntas de opción múltiple con una sola respuesta correcta.",
-            "C": "Preguntas con opciones de rellenar espacios en blanco.",
-            "D": "Preguntas basadas en imágenes o videos."
-          },
-          "opcion_correcta": "B",
-          "explicacion": "El texto menciona que las preguntas serán de estilo test, con respuestas seleccionables tipo A, B, C y D."
-        },
-        {
-          "enunciado": "¿Qué característica permitiría a los usuarios mejorar su aprendizaje?",
-          "opciones": {
-            "A": "Un modo 'repaso inteligente' que genera más preguntas sobre los temas en los que el usuario suele fallar.",
-            "B": "La posibilidad de compartir sus exámenes con otros estudiantes para obtener feedback.",
-            "C": "Acceso a un diccionario integrado con definiciones y ejemplos.",
-            "D": "Integración con plataformas de videoconferencia para realizar clases virtuales."
-          },
-          "opcion_correcta": "A",
-          "explicacion": "El texto menciona específicamente el modo 'repaso inteligente' como una característica que genera más preguntas sobre los temas débiles del usuario."
-        },
-        {
-          "enunciado": "¿Qué tecnologías se sugieren para desarrollar la aplicación?",
-          "opciones": {
-            "A": "Java, React y MongoDB.",
-            "B": "Python, Flask/FastAPI, SQLite y HTML/CSS/JavaScript.",
-            "C": "PHP, Laravel y PostgreSQL.",
-            "D": "C++, Angular y Redis."
-          },
-          "opcion_correcta": "B",
-          "explicacion": "El texto menciona Python, Flask o FastAPI, SQLite, HTML/CSS/JavaScript como tecnologías potenciales para la aplicación."
-        },
-        {
-          "enunciado": "¿Cuál es el objetivo final del proyecto?",
-          "opciones": {
-            "A": "Crear una aplicación que simule un profesor virtual capaz de impartir clases en tiempo real.",
-            "B": "Desarrollar una herramienta de estudio inteligente que ayude a los usuarios a convertir sus apuntes en exámenes y mejorar su aprendizaje gradualmente.",
-            "C": "Implementar un sistema de análisis predictivo para detectar las necesidades de aprendizaje individuales de cada estudiante.",
-            "D": "Generar contenido educativo personalizado basado en la inteligencia artificial."
-          },
-          "opcion_correcta": "B",
-          "explicacion": "El texto menciona que el objetivo final es crear una herramienta que convierta apuntes en exámenes, ayude a los usuarios a mejorar su aprendizaje y actúe como un "
-        }
-      ]
-    }
-  },
-  {
-    "timestamp": "2026-06-08T09:17:41.971041",
+    "timestamp": "2026-06-08T13:04:18.422119",
     "nombre_examen": "",
     "materia": "",
     "dificultad": "Media",
     "modelo": "gemma2:9b",
+    "texto_pdf": "Propuesta de proyecto de prácticas – Sistema de control gestual con MediaPipe y \nwebcam \nHola Laura, \nPara tu periodo de prácticas en Azken Muga queremos proponerte el desarrollo de \nun proyecto práctico e interesante basado en visión artificial, interacción por \ngestos y automatización. \nLa idea principal del proyecto es construir una herramienta capaz de reconocer \ngestos realizados con la mano delante de una webcam y convertir esos gestos en \nacciones reales dentro de un ordenador, una red local o un entorno de trabajo. \nEl objetivo no es simplemente detectar una mano en pantalla, sino crear un \nsistema útil que permita controlar ciertas acciones sin tocar el teclado ni el ratón, \nusando únicamente gestos reconocidos mediante inteligencia artificial. \nDescripción general del proyecto \nEl proyecto consistirá en desarrollar una aplicación en Python que utilice la \nwebcam del equipo para detectar manos en tiempo real mediante MediaPipe. \nA partir de esa detección, el sistema deberá ser capaz de interpretar diferentes \ngestos y asociarlos a acciones concretas. \nPor ejemplo, algunos gestos podrían servir para: \n• encender un equipo de la red mediante Wake on LAN \n• abrir una página web interna \n• lanzar un script de diagnóstico \n• cambiar entre modos de una aplicación \n• enviar una notificación \n• bloquear o desbloquear una función \n• controlar una presentación \n• activar un modo de emergencia o parada \n• registrar eventos en un panel web \nLa idea es que el sistema funcione como un panel de control gestual, donde cada \ngesto tenga una utilidad clara. \nFuncionamiento esperado \nEl sistema deberá utilizar la webcam para capturar vídeo en tiempo real. \nSobre esa imagen, MediaPipe deberá detectar la mano, sus puntos clave y la \nposición de los dedos. A partir de esos puntos, la aplicación deberá identificar gestos concretos, como por \nejemplo: \n• mano abierta \n• puño cerrado \n• pulgar arriba \n• índice levantado \n• dos dedos levantados \n• gesto de pinza \n• gesto de confirmación \n• gesto de cancelación \n• movimiento lateral de la mano \n• mantener un gesto durante varios segundos \nCada gesto deberá estar asociado a una acción configurable. \nPor ejemplo: \nSi el usuario hace un gesto de “pulgar arriba”, el sistema podría confirmar una \nacción. \nSi hace un gesto de “puño cerrado”, podría cancelar o bloquear la ejecución. \nSi junta dos dedos en forma de pinza durante unos segundos, podría lanzar una \nacción concreta como encender un equipo por Wake on LAN. \nSi levanta dos dedos, podría abrir un dashboard interno. \nSi mueve la mano hacia la izquierda o derecha, podría cambiar de pantalla, modo \no sección. \nLa parte importante es que los gestos no ejecuten acciones por accidente. Para \nello, el sistema deberá incorporar cierto control de seguridad, como mantener el \ngesto durante un tiempo mínimo, mostrar una cuenta atrás o pedir un segundo \ngesto de confirmación. \nAplicación web de control \nAdemás del reconocimiento por webcam, se desarrollará una pequeña interfaz \nweb para gestionar el sistema. \nEsta interfaz deberá permitir, como mínimo: \n• ver la imagen de la webcam en tiempo real \n• ver qué gesto se está detectando \n• consultar el historial de gestos reconocidos \n• configurar qué acción corresponde a cada gesto • activar o desactivar gestos concretos \n• modificar parámetros como sensibilidad o tiempo de confirmación \n• ver logs de acciones ejecutadas \n• probar acciones manualmente desde la web \nLa idea es que el proyecto no sea solo un script de cámara, sino una herramienta \ncompleta, con una parte visual y una parte de configuración. \nAcciones posibles del sistema \nEl sistema puede empezar con acciones sencillas y después ir creciendo. \nAlgunas acciones interesantes que podrían implementarse son: \n• Wake on LAN para encender un equipo de la red \n• apertura automática de una URL interna \n• ejecución de scripts locales en Python o Bash \n• envío de una notificación por Telegram o Discord \n• control básico de una presentación \n• bloqueo temporal de una acción \n• escritura de eventos en una base de datos \n• activación de perfiles o modos de trabajo \n• integración con una API local \nPor ejemplo, se podría crear un modo “demo” para presentaciones, donde con la \nmano se pueda avanzar, retroceder, pausar o abrir una pantalla concreta. \nTambién se podría crear un modo “técnico”, donde ciertos gestos permitan lanzar \nscripts internos, consultar el estado de un equipo o encender una máquina por red. \nObjetivo de la práctica \nCon este proyecto buscamos evaluar varios puntos importantes: \n• capacidad para trabajar con visión artificial en tiempo real \n• comprensión del uso de MediaPipe y OpenCV \n• capacidad para interpretar datos de landmarks de la mano \n• diseño de una aplicación útil y no solo una prueba visual \n• integración entre backend, webcam, automatización y frontend \n• criterio para evitar falsas detecciones \n• capacidad para estructurar el proyecto por módulos \n• autonomía para investigar mejoras y plantear nuevas funciones \nNo buscamos un producto final perfecto, sino una solución bien planteada, \nfuncional y con posibilidades reales de crecimiento. Pistas y recomendaciones \nComo orientación general, puede ser buena idea dividir el proyecto en módulos \nclaros. \nPor ejemplo: \n• un módulo de captura de webcam \n• un módulo de detección de manos con MediaPipe \n• un módulo de interpretación de gestos \n• un módulo de acciones configurables \n• un backend para servir la información \n• una interfaz web para visualizar y configurar el sistema \n• un sistema de logs para registrar lo que ocurre \nA nivel técnico, algunas tecnologías que podrían encajar bien son: \n• Python como lenguaje principal \n• MediaPipe para la detección de manos \n• OpenCV para capturar y procesar la imagen de la webcam \n• Flask o FastAPI para crear la aplicación web \n• HTML, CSS y JavaScript para el dashboard \n• SQLite o JSON para guardar la configuración \n• Wake on LAN para encender equipos de la red \n• Requests para integraciones con APIs \n• Telegram o Discord para enviar notificaciones opcionales \nNo es obligatorio usar todas estas tecnologías, pero sí se espera que la elección \ntenga sentido y esté bien organizada. \nTambién recomendamos plantear primero una versión básica y funcional, y \ndespués ampliarla poco a poco. \nPor ejemplo: \n1. detectar la mano con MediaPipe y mostrarla en pantalla \n2. identificar gestos sencillos como mano abierta, puño y dedos levantados \n3. asociar cada gesto a una acción simple \n4. añadir confirmación para evitar ejecuciones accidentales \n5. crear una interfaz web para visualizar el estado \n6. permitir configurar gestos y acciones desde la web \n7. añadir acciones más útiles como Wake on LAN, scripts o notificaciones 8. guardar logs e historial de uso \nResultado esperado \nAl finalizar, el proyecto debería permitir algo como esto: \nUn usuario abre la aplicación, activa la webcam y puede controlar ciertas acciones \ndel sistema usando gestos con la mano. La aplicación reconoce el gesto, \ncomprueba que se mantiene el tiempo necesario, muestra una confirmación visual \ny ejecuta la acción configurada. \nPor ejemplo, el usuario podría hacer un gesto concreto para encender un equipo \npor Wake on LAN, otro gesto para abrir un dashboard interno, otro para lanzar una \nprueba o script, y otro para cancelar una acción. \nTodo ello debería quedar registrado en una interfaz web, donde se pueda ver qué \ngesto se ha detectado, qué acción se ha ejecutado y cuándo ha ocurrido. \nLa idea final es crear una herramienta de control gestual inteligente, útil para \ndemostraciones, automatización interna o entornos donde interese interactuar con \nun sistema sin tocar físicamente el ordenador. \n ",
     "examen": {
-      "materia": "Inteligencia Artificial y Desarrollo Web",
-      "dificultad": "Media",
-      "preguntas": [
-        {
-          "enunciado": "Cuál es el objetivo principal del proyecto de aplicación propuesto?",
-          "opciones": {
-            "A": "Crear una plataforma social para estudiantes.",
-            "B": "Desarrollar un sistema de chat con IA.",
-            "C": "Construir una herramienta para estudiar y autoevaluarse mediante IA.",
-            "D": "Generar textos creativos utilizando algoritmos de aprendizaje automático."
-          },
-          "opcion_correcta": "C",
-          "explicacion": "El texto menciona que el objetivo es construir una herramienta donde los usuarios puedan subir documentos y la IA genere cuestionarios automáticamente para ayudarles a estudiar y autoevaluarse."
-        },
-        {
-          "enunciado": " ¿Qué tipo de preguntas se generarán automáticamente por la aplicación?",
-          "opciones": {
-            "A": "Preguntas abiertas con respuestas libres.",
-            "B": "Preguntas de verdadero o falso.",
-            "C": "Preguntas tipo test con respuestas seleccionables (A, B, C, D).",
-            "D": "Preguntas que requieren la escritura de código."
-          },
-          "opcion_correcta": "C",
-          "explicacion": "El texto especifica que las preguntas serán de estilo test, con opciones tipo A, B, C y D, donde solo una será correcta."
-        },
-        {
-          "enunciado": " ¿Qué funcionalidad permitiría a los usuarios revisar sus progresos en el estudio?",
-          "opciones": {
-            "A": "Comparte sus resultados en redes sociales.",
-            "B": "Participar en debates con otros estudiantes sobre los temas estudiados.",
-            "C": "Ver su historial de notas, porcentajes de acierto y estadísticas por documento.",
-            "D": "Solicitar a un tutor que revise sus exámenes."
-          },
-          "opcion_correcta": "C",
-          "explicacion": "El texto menciona la posibilidad de ver una gráfica de progreso, historial de notas, porcentajes de acierto y estadísticas por documento."
-        },
-        {
-          "enunciado": " ¿Qué tecnologías se sugieren para el desarrollo del proyecto?",
-          "opciones": {
-            "A": "Java, SQL y React.",
-            "B": "Python, Flask o FastAPI, SQLite, HTML/CSS/JavaScript.",
-            "C": "C++, C#, PHP y MongoDB.",
-            "D": "Ruby on Rails, PostgreSQL y Vue.js."
-          },
-          "opcion_correcta": "B",
-          "explicacion": "El texto menciona Python, Flask o FastAPI, SQLite, HTML/CSS/JavaScript, lectura de PDFs y algún modelo de IA local o por API como tecnologías que podrían encajar en el proyecto."
-        }
-      ]
-    }
-  },
-  {
-    "timestamp": "2026-06-08T09:58:30.617123",
-    "nombre_examen": "",
-    "materia": "",
-    "dificultad": "Media",
-    "modelo": "gemma2:9b",
-    "examen": {
-      "materia": "Visión artificial y desarrollo de aplicaciones web",
+      "materia": "Visión artificial y control gestual con Python",
       "dificultad": "Media",
       "preguntas": [
         {
           "enunciado": "Cuál es el objetivo principal del proyecto propuesto?",
           "opciones": {
-            "A": "Crear una aplicación móvil que reconozca gestos para controlar un dispositivo.",
-            "B": "Desarrollar un sistema de seguridad basado en reconocimiento facial con webcam.",
-            "C": "Construir una herramienta que interprete gestos mediante MediaPipe y los traduzca a acciones en un ordenador.",
-            "D": "Implementar un modelo de inteligencia artificial para predecir el comportamiento humano a través de gestos."
-          },
-          "opcion_correcta": "C",
-          "explicacion": "El texto menciona que el objetivo es crear una herramienta que reconozca gestos realizados con la mano delante de una webcam y los convierta en acciones reales dentro de un ordenador."
-        },
-        {
-          "enunciado": " ¿Qué módulo NO se menciona explícitamente como parte del proyecto?",
-          "opciones": {
-            "A": "Módulo de captura de webcam",
-            "B": "Módulo de interpretación de gestos",
-            "C": "Módulo de generación de código fuente automático",
-            "D": "Backend para servir la información"
-          },
-          "opcion_correcta": "C",
-          "explicacion": "El texto propone módulos como captura de webcam, detección de manos, interpretación de gestos, acciones configurables, backend y interfaz web. No menciona un módulo específico para generación de código."
-        },
-        {
-          "enunciado": "¿Cuál es el propósito del sistema de logs en el proyecto?",
-          "opciones": {
-            "A": "Mostrar la posición exacta de las manos en tiempo real.",
-            "B": "Guardar un historial de los gestos realizados y las acciones ejecutadas.",
-            "C": "Realizar análisis estadísticos sobre los patrones de uso del sistema.",
-            "D": "Permitir a los usuarios compartir sus resultados con la comunidad."
+            "A": "Desarrollar un sistema de reconocimiento facial para acceso a dispositivos.",
+            "B": "Construir una herramienta que controle acciones mediante gestos detectados por webcam.",
+            "C": "Crear una aplicación móvil que permita controlar el ritmo cardíaco con sensores.",
+            "D": "Implementar un modelo de lenguaje para traducción automática en tiempo real."
           },
           "opcion_correcta": "B",
-          "explicacion": "El texto menciona que el sistema de logs registraría lo que ocurre durante la interacción con el sistema, incluyendo gestos y acciones ejecutadas."
+          "explicacion": "El texto menciona claramente que el objetivo es crear un sistema que reconozca gestos de manos y los asocie a acciones reales, usando una webcam como input."
         },
         {
-          "enunciado": "¿Qué acción NO se sugiere como posibilidad dentro del proyecto?",
+          "enunciado": "¿Qué biblioteca se propone utilizar para la detección de manos en tiempo real?",
           "opciones": {
-            "A": "Enviar notificaciones por Telegram o Discord",
-            "B": "Ejecutar scripts locales en Python o Bash",
-            "C": "Generar automáticamente diseños de páginas web",
-            "D": "Enciende equipos de la red mediante Wake on LAN"
-          },
-          "opcion_correcta": "C",
-          "explicacion": "El texto enumera acciones como enviar notificaciones, ejecutar scripts y encender equipos por Wake on LAN. No menciona la generación automática de diseños web."
-        },
-        {
-          "enunciado": "¿Cuál es la tecnología recomendada para capturar y procesar la imagen de la webcam?",
-          "opciones": {
-            "A": "TensorFlow",
-            "B": "PyTorch",
-            "C": "OpenCV",
+            "A": "OpenCV",
+            "B": "TensorFlow",
+            "C": "MediaPipe",
             "D": "Scikit-learn"
           },
           "opcion_correcta": "C",
-          "explicacion": "El texto menciona que OpenCV podría encajar bien para capturar y procesar la imagen de la webcam."
+          "explicacion": "El texto menciona explícitamente el uso de MediaPipe para detectar la mano, sus puntos clave y la posición de los dedos."
+        },
+        {
+          "enunciado": "¿Cuál es el propósito del sistema de control de seguridad en el proyecto?",
+          "opciones": {
+            "A": "Proporcionar un historial de acciones ejecutadas por el usuario.",
+            "B": "Evitar que los gestos se ejecuten accidentalmente y asegurar la precisión del sistema.",
+            "C": "Permitir a los usuarios cambiar la configuración del sistema desde una interfaz web.",
+            "D": "Integración con redes sociales para compartir logros y estadísticas."
+          },
+          "opcion_correcta": "B",
+          "explicacion": "El texto menciona que el control de seguridad, como mantener el gesto durante un tiempo mínimo o pedir confirmación, se implementa para evitar acciones accidentales."
+        },
+        {
+          "enunciado": "¿Qué tipo de acciones pueden ser controladas por el sistema?",
+          "opciones": {
+            "A": "Cambiar la temperatura del ambiente, controlar dispositivos inteligentes y encender luces.",
+            "B": "Ejecutar scripts locales, enviar notificaciones por Telegram o Discord, encender equipos por Wake on LAN.",
+            "C": "Acceder a sitios web de noticias, realizar búsquedas en internet y gestionar correo electrónico.",
+            "D": "Controlar videojuegos, reproducir música y crear presentaciones multimedia."
+          },
+          "opcion_correcta": "B",
+          "explicacion": "El texto ofrece ejemplos como Wake on LAN, ejecución de scripts o envío de notificaciones como acciones posibles."
+        },
+        {
+          "enunciado": "¿Qué tecnología se sugiere para crear la interfaz web del sistema?",
+          "opciones": {
+            "A": "React",
+            "B": "Angular",
+            "C": "Flask o FastAPI",
+            "D": "Node.js"
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto menciona Flask o FastAPI como tecnologías adecuadas para crear la aplicación web."
+        },
+        {
+          "enunciado": "¿Cuál es el objetivo final del proyecto?",
+          "opciones": {
+            "A": "Desarrollar un asistente virtual que pueda responder preguntas complejas.",
+            "B": "Crear una herramienta de control gestual útil para demostraciones, automatización o entornos donde se prefiera interactuar sin tocar físicamente el ordenador.",
+            "C": "Implementar un sistema de reconocimiento facial para desbloquear dispositivos móviles.",
+            "D": "Generar imágenes realistas utilizando inteligencia artificial."
+          },
+          "opcion_correcta": "B",
+          "explicacion": "El texto menciona la creación de una herramienta útil para control gestual en diferentes contextos como presentaciones, automatización interna o entornos con interacción sin tocar el ordenador."
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-08T13:17:23.944773",
+    "nombre_examen": "",
+    "materia": "",
+    "dificultad": "Media",
+    "modelo": "gemma2:9b",
+    "texto_pdf": "Propuesta de proyecto de prácticas – Aplicación inteligente para estudiar con IA \nHola Laura, \nPara tu periodo de prácticas en Azken Muga queremos proponerte el desarrollo de \nuna aplicación orientada al estudio, el aprendizaje y la autoevaluación usando \ninteligencia artificial. \nLa idea principal del proyecto es construir una herramienta donde el usuario pueda \nsubir varios documentos de estudio, como apuntes, PDFs, manuales, temarios o \ntextos, y que el sistema sea capaz de leerlos, entender su contenido y generar \ncuestionarios automáticamente. \nDescripción general del proyecto \nLa aplicación deberá permitir que el usuario suba uno o varios documentos y, a \npartir de ellos, la IA genere preguntas tipo examen. \nEstas preguntas podrán ser de estilo test, con respuestas seleccionables tipo A, B, \nC y D, donde solo una sea correcta. Después de responder, el sistema deberá \ncorregir el examen y explicar brevemente por qué la respuesta correcta es esa, \nusando como base los documentos subidos. \nLa idea no es solo hacer preguntas aleatorias, sino crear una herramienta útil para \nestudiar de verdad. \nFuncionamiento esperado \nEl usuario podrá: \n• subir documentos de estudio \n• seleccionar sobre qué documentos quiere hacer el examen \n• elegir el número de preguntas \n• escoger dificultad: fácil, media o difícil \n• responder preguntas tipo test \n• recibir una corrección automática \n• ver la nota final del examen \n• revisar en qué preguntas ha fallado \n• consultar una explicación basada en los apuntes \nAdemás, sería interesante que la aplicación guardase los exámenes realizados \npara que el usuario pueda ver su evolución con el tiempo. \nDashboard web \nLa aplicación tendrá una interfaz web sencilla y clara donde el usuario pueda \ngestionar todo. Esta parte debería permitir: \n• ver los documentos subidos \n• crear nuevos exámenes \n• consultar exámenes anteriores \n• ver notas y porcentajes de acierto \n• detectar temas donde falla más \n• repetir preguntas falladas \n• ver una gráfica de progreso \n• eliminar documentos o exámenes antiguos \nTambién podría incluir un modo “repaso inteligente”, donde el sistema genere más \npreguntas sobre los temas en los que el usuario suele fallar. \nCosas interesantes que podría tener \n• modo examen normal \n• modo repaso de fallos \n• preguntas con explicación \n• historial de notas \n• estadísticas por documento \n• dificultad configurable \n• generación automática de tests \n• guardado de progreso \n• panel visual con evolución \n• opción de repetir un examen \nObjetivo de la práctica \nCon este proyecto buscamos evaluar la capacidad para crear una aplicación útil, \nbien organizada y con una aplicación real de inteligencia artificial. \nSe trabajarán varias partes importantes: \n• carga y lectura de documentos \n• extracción de información relevante \n• generación de preguntas con IA \n• corrección automática \n• diseño de una interfaz web \n• almacenamiento de usuarios, documentos, exámenes y resultados \n• visualización de progreso \nNo buscamos que el sistema sea perfecto desde el primer día, sino una primera \nversión funcional que permita subir documentos, generar preguntas, responderlas, \ncorregirlas y guardar los resultados. Pistas y recomendaciones \nUna buena forma de plantearlo sería dividir el proyecto en módulos: \n• módulo de subida de documentos \n• módulo de lectura de PDFs y textos \n• módulo de generación de preguntas con IA \n• módulo de exámenes \n• módulo de corrección \n• módulo de estadísticas \n• dashboard web \nA nivel técnico, podrían encajar tecnologías como Python, Flask o FastAPI, \nSQLite, HTML/CSS/JavaScript, lectura de PDFs y algún modelo de IA local o por \nAPI. \nResultado esperado \nAl finalizar, el usuario debería poder subir sus apuntes, generar un examen tipo \ntest, responderlo desde la web, recibir una corrección automática y ver su \nevolución con el tiempo. \nLa idea final es crear una herramienta de estudio inteligente, como una especie de \nprofesor personal que convierte apuntes en exámenes y ayuda al usuario a \nmejorar poco a poco. \n ",
+    "examen": {
+      "materia": "Inteligencia Artificial y Desarrollo Web",
+      "dificultad": "Media",
+      "preguntas": [
+        {
+          "enunciado": "¿Cuál es la principal función de la aplicación propuesta?",
+          "opciones": {
+            "A": "Crear presentaciones con IA",
+            "B": "Generar exámenes automáticamente a partir de documentos subidos",
+            "C": "Traductores multilingües con enfoque en aprendizaje automático",
+            "D": "Simular conversaciones realistas con chatbots basados en el usuario"
+          },
+          "opcion_correcta": "B",
+          "explicacion": "El texto describe la aplicación como una herramienta que permite subir documentos y generar exámenes automáticamente a partir de su contenido.",
+          "seleccion_usuario": "B"
+        },
+        {
+          "enunciado": "¿Qué tipo de preguntas se generan en la aplicación?",
+          "opciones": {
+            "A": "Preguntas abiertas con respuesta textual",
+            "B": "Resúmenes de los documentos subidos",
+            "C": "Preguntas de opción múltiple con una única respuesta correcta",
+            "D": "Preguntas con lógica y programación básica"
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto menciona que las preguntas son de tipo test, donde solo una respuesta (A, B, C o D) es la correcta.",
+          "seleccion_usuario": "B"
+        },
+        {
+          "enunciado": "¿Qué información adicional ofrece la aplicación a los usuarios?",
+          "opciones": {
+            "A": "Análisis de sintaxis y gramática en los documentos subidos",
+            "B": "Explicaciones breves sobre por qué la respuesta es correcta, basadas en los documentos",
+            "C": "Integración con redes sociales para compartir resultados de exámenes",
+            "D": "Generación de informes personalizados para enviar a profesores"
+          },
+          "opcion_correcta": "B",
+          "explicacion": "El texto indica que el sistema explica brevemente por qué la respuesta correcta es esa, usando los documentos subidos como base.",
+          "seleccion_usuario": "A"
+        },
+        {
+          "enunciado": "¿Qué tecnología se sugiere para el desarrollo del módulo de interfaz web?",
+          "opciones": {
+            "A": "React Native",
+            "B": "Java Spring Boot",
+            "C": "HTML/CSS/JavaScript",
+            "D": "Node.js Express"
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto menciona HTML/CSS/JavaScript como posibles tecnologías para el desarrollo de la interfaz web.",
+          "seleccion_usuario": "C"
+        },
+        {
+          "enunciado": "¿Cuál es el objetivo principal del proyecto de prácticas?",
+          "opciones": {
+            "A": "Crear un sistema de recomendación personalizado para estudiantes",
+            "B": "Desarrollar una plataforma educativa completa con cursos online interactivos",
+            "C": "Evaluar la capacidad para crear una aplicación útil con IA integrada y diseño web funcional",
+            "D": "Generar modelos predictivos para analizar el rendimiento académico de los estudiantes"
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto indica que se busca evaluar la capacidad para crear una aplicación útil, bien organizada y con una aplicación real de inteligencia artificial.",
+          "seleccion_usuario": "A"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-08T13:35:23.856234",
+    "nombre_examen": "",
+    "materia": "",
+    "dificultad": "Dificil",
+    "modelo": "gemma2:9b",
+    "texto_pdf": "Propuesta de proyecto de prácticas – Sistema de control gestual con MediaPipe y \nwebcam \nHola Laura, \nPara tu periodo de prácticas en Azken Muga queremos proponerte el desarrollo de \nun proyecto práctico e interesante basado en visión artificial, interacción por \ngestos y automatización. \nLa idea principal del proyecto es construir una herramienta capaz de reconocer \ngestos realizados con la mano delante de una webcam y convertir esos gestos en \nacciones reales dentro de un ordenador, una red local o un entorno de trabajo. \nEl objetivo no es simplemente detectar una mano en pantalla, sino crear un \nsistema útil que permita controlar ciertas acciones sin tocar el teclado ni el ratón, \nusando únicamente gestos reconocidos mediante inteligencia artificial. \nDescripción general del proyecto \nEl proyecto consistirá en desarrollar una aplicación en Python que utilice la \nwebcam del equipo para detectar manos en tiempo real mediante MediaPipe. \nA partir de esa detección, el sistema deberá ser capaz de interpretar diferentes \ngestos y asociarlos a acciones concretas. \nPor ejemplo, algunos gestos podrían servir para: \n• encender un equipo de la red mediante Wake on LAN \n• abrir una página web interna \n• lanzar un script de diagnóstico \n• cambiar entre modos de una aplicación \n• enviar una notificación \n• bloquear o desbloquear una función \n• controlar una presentación \n• activar un modo de emergencia o parada \n• registrar eventos en un panel web \nLa idea es que el sistema funcione como un panel de control gestual, donde cada \ngesto tenga una utilidad clara. \nFuncionamiento esperado \nEl sistema deberá utilizar la webcam para capturar vídeo en tiempo real. \nSobre esa imagen, MediaPipe deberá detectar la mano, sus puntos clave y la \nposición de los dedos. A partir de esos puntos, la aplicación deberá identificar gestos concretos, como por \nejemplo: \n• mano abierta \n• puño cerrado \n• pulgar arriba \n• índice levantado \n• dos dedos levantados \n• gesto de pinza \n• gesto de confirmación \n• gesto de cancelación \n• movimiento lateral de la mano \n• mantener un gesto durante varios segundos \nCada gesto deberá estar asociado a una acción configurable. \nPor ejemplo: \nSi el usuario hace un gesto de “pulgar arriba”, el sistema podría confirmar una \nacción. \nSi hace un gesto de “puño cerrado”, podría cancelar o bloquear la ejecución. \nSi junta dos dedos en forma de pinza durante unos segundos, podría lanzar una \nacción concreta como encender un equipo por Wake on LAN. \nSi levanta dos dedos, podría abrir un dashboard interno. \nSi mueve la mano hacia la izquierda o derecha, podría cambiar de pantalla, modo \no sección. \nLa parte importante es que los gestos no ejecuten acciones por accidente. Para \nello, el sistema deberá incorporar cierto control de seguridad, como mantener el \ngesto durante un tiempo mínimo, mostrar una cuenta atrás o pedir un segundo \ngesto de confirmación. \nAplicación web de control \nAdemás del reconocimiento por webcam, se desarrollará una pequeña interfaz \nweb para gestionar el sistema. \nEsta interfaz deberá permitir, como mínimo: \n• ver la imagen de la webcam en tiempo real \n• ver qué gesto se está detectando \n• consultar el historial de gestos reconocidos \n• configurar qué acción corresponde a cada gesto • activar o desactivar gestos concretos \n• modificar parámetros como sensibilidad o tiempo de confirmación \n• ver logs de acciones ejecutadas \n• probar acciones manualmente desde la web \nLa idea es que el proyecto no sea solo un script de cámara, sino una herramienta \ncompleta, con una parte visual y una parte de configuración. \nAcciones posibles del sistema \nEl sistema puede empezar con acciones sencillas y después ir creciendo. \nAlgunas acciones interesantes que podrían implementarse son: \n• Wake on LAN para encender un equipo de la red \n• apertura automática de una URL interna \n• ejecución de scripts locales en Python o Bash \n• envío de una notificación por Telegram o Discord \n• control básico de una presentación \n• bloqueo temporal de una acción \n• escritura de eventos en una base de datos \n• activación de perfiles o modos de trabajo \n• integración con una API local \nPor ejemplo, se podría crear un modo “demo” para presentaciones, donde con la \nmano se pueda avanzar, retroceder, pausar o abrir una pantalla concreta. \nTambién se podría crear un modo “técnico”, donde ciertos gestos permitan lanzar \nscripts internos, consultar el estado de un equipo o encender una máquina por red. \nObjetivo de la práctica \nCon este proyecto buscamos evaluar varios puntos importantes: \n• capacidad para trabajar con visión artificial en tiempo real \n• comprensión del uso de MediaPipe y OpenCV \n• capacidad para interpretar datos de landmarks de la mano \n• diseño de una aplicación útil y no solo una prueba visual \n• integración entre backend, webcam, automatización y frontend \n• criterio para evitar falsas detecciones \n• capacidad para estructurar el proyecto por módulos \n• autonomía para investigar mejoras y plantear nuevas funciones \nNo buscamos un producto final perfecto, sino una solución bien planteada, \nfuncional y con posibilidades reales de crecimiento. Pistas y recomendaciones \nComo orientación general, puede ser buena idea dividir el proyecto en módulos \nclaros. \nPor ejemplo: \n• un módulo de captura de webcam \n• un módulo de detección de manos con MediaPipe \n• un módulo de interpretación de gestos \n• un módulo de acciones configurables \n• un backend para servir la información \n• una interfaz web para visualizar y configurar el sistema \n• un sistema de logs para registrar lo que ocurre \nA nivel técnico, algunas tecnologías que podrían encajar bien son: \n• Python como lenguaje principal \n• MediaPipe para la detección de manos \n• OpenCV para capturar y procesar la imagen de la webcam \n• Flask o FastAPI para crear la aplicación web \n• HTML, CSS y JavaScript para el dashboard \n• SQLite o JSON para guardar la configuración \n• Wake on LAN para encender equipos de la red \n• Requests para integraciones con APIs \n• Telegram o Discord para enviar notificaciones opcionales \nNo es obligatorio usar todas estas tecnologías, pero sí se espera que la elección \ntenga sentido y esté bien organizada. \nTambién recomendamos plantear primero una versión básica y funcional, y \ndespués ampliarla poco a poco. \nPor ejemplo: \n1. detectar la mano con MediaPipe y mostrarla en pantalla \n2. identificar gestos sencillos como mano abierta, puño y dedos levantados \n3. asociar cada gesto a una acción simple \n4. añadir confirmación para evitar ejecuciones accidentales \n5. crear una interfaz web para visualizar el estado \n6. permitir configurar gestos y acciones desde la web \n7. añadir acciones más útiles como Wake on LAN, scripts o notificaciones 8. guardar logs e historial de uso \nResultado esperado \nAl finalizar, el proyecto debería permitir algo como esto: \nUn usuario abre la aplicación, activa la webcam y puede controlar ciertas acciones \ndel sistema usando gestos con la mano. La aplicación reconoce el gesto, \ncomprueba que se mantiene el tiempo necesario, muestra una confirmación visual \ny ejecuta la acción configurada. \nPor ejemplo, el usuario podría hacer un gesto concreto para encender un equipo \npor Wake on LAN, otro gesto para abrir un dashboard interno, otro para lanzar una \nprueba o script, y otro para cancelar una acción. \nTodo ello debería quedar registrado en una interfaz web, donde se pueda ver qué \ngesto se ha detectado, qué acción se ha ejecutado y cuándo ha ocurrido. \nLa idea final es crear una herramienta de control gestual inteligente, útil para \ndemostraciones, automatización interna o entornos donde interese interactuar con \nun sistema sin tocar físicamente el ordenador. \n \nPropuesta de proyecto de prácticas – Aplicación inteligente para estudiar con IA \nHola Laura, \nPara tu periodo de prácticas en Azken Muga queremos proponerte el desarrollo de \nuna aplicación orientada al estudio, el aprendizaje y la autoevaluación usando \ninteligencia artificial. \nLa idea principal del proyecto es construir una herramienta donde el usuario pueda \nsubir varios documentos de estudio, como apuntes, PDFs, manuales, temarios o \ntextos, y que el sistema sea capaz de leerlos, entender su contenido y generar \ncuestionarios automáticamente. \nDescripción general del proyecto \nLa aplicación deberá permitir que el usuario suba uno o varios documentos y, a \npartir de ellos, la IA genere preguntas tipo examen. \nEstas preguntas podrán ser de estilo test, con respuestas seleccionables tipo A, B, \nC y D, donde solo una sea correcta. Después de responder, el sistema deberá \ncorregir el examen y explicar brevemente por qué la respuesta correcta es esa, \nusando como base los documentos subidos. \nLa idea no es solo hacer preguntas aleatorias, sino crear una herramienta útil para \nestudiar de verdad. \nFuncionamiento esperado \nEl usuario podrá: \n• subir documentos de estudio \n• seleccionar sobre qué documentos quiere hacer el examen \n• elegir el número de preguntas \n• escoger dificultad: fácil, media o difícil \n• responder preguntas tipo test \n• recibir una corrección automática \n• ver la nota final del examen \n• revisar en qué preguntas ha fallado \n• consultar una explicación basada en los apuntes \nAdemás, sería interesante que la aplicación guardase los exámenes realizados \npara que el usuario pueda ver su evolución con el tiempo. \nDashboard web \nLa aplicación tendrá una interfaz web sencilla y clara donde el usuario pueda \ngestionar todo. Esta parte debería permitir: \n• ver los documentos subidos \n• crear nuevos exámenes \n• consultar exámenes anteriores \n• ver notas y porcentajes de acierto \n• detectar temas donde falla más \n• repetir preguntas falladas \n• ver una gráfica de progreso \n• eliminar documentos o exámenes antiguos \nTambién podría incluir un modo “repaso inteligente”, donde el sistema genere más \npreguntas sobre los temas en los que el usuario suele fallar. \nCosas interesantes que podría tener \n• modo examen normal \n• modo repaso de fallos \n• preguntas con explicación \n• historial de notas \n• estadísticas por documento \n• dificultad configurable \n• generación automática de tests \n• guardado de progreso \n• panel visual con evolución \n• opción de repetir un examen \nObjetivo de la práctica \nCon este proyecto buscamos evaluar la capacidad para crear una aplicación útil, \nbien organizada y con una aplicación real de inteligencia artificial. \nSe trabajarán varias partes importantes: \n• carga y lectura de documentos \n• extracción de información relevante \n• generación de preguntas con IA \n• corrección automática \n• diseño de una interfaz web \n• almacenamiento de usuarios, documentos, exámenes y resultados \n• visualización de progreso \nNo buscamos que el sistema sea perfecto desde el primer día, sino una primera \nversión funcional que permita subir documentos, generar preguntas, responderlas, \ncorregirlas y guardar los resultados. Pistas y recomendaciones \nUna buena forma de plantearlo sería dividir el proyecto en módulos: \n• módulo de subida de documentos \n• módulo de lectura de PDFs y textos \n• módulo de generación de preguntas con IA \n• módulo de exámenes \n• módulo de corrección \n• módulo de estadísticas \n• dashboard web \nA nivel técnico, podrían encajar tecnologías como Python, Flask o FastAPI, \nSQLite, HTML/CSS/JavaScript, lectura de PDFs y algún modelo de IA local o por \nAPI. \nResultado esperado \nAl finalizar, el usuario debería poder subir sus apuntes, generar un examen tipo \ntest, responderlo desde la web, recibir una corrección automática y ver su \nevolución con el tiempo. \nLa idea final es crear una herramienta de estudio inteligente, como una especie de \nprofesor personal que convierte apuntes en exámenes y ayuda al usuario a \nmejorar poco a poco. \n ",
+    "examen": {
+      "materia": "Visión Artificial y Desarrollo Web",
+      "dificultad": "Dificil",
+      "preguntas": [
+        {
+          "enunciado": "¿Cuál es el objetivo principal del proyecto de control gestual?",
+          "opciones": {
+            "A": "Desarrollar un sistema que detecte manos en pantalla.",
+            "B": "Crear una herramienta útil para controlar acciones usando gestos.",
+            "C": "Investigar las capacidades de la webcam en tiempo real.",
+            "D": "Generar un juego interactivo basado en reconocimiento de gestos."
+          },
+          "opcion_correcta": "B",
+          "explicacion": "El objetivo principal es construir una herramienta que permita controlar acciones mediante gestos, no solo detectar manos.",
+          "seleccion_usuario": "A"
+        },
+        {
+          "enunciado": "¿Qué tecnología se propone utilizar para la detección de manos?",
+          "opciones": {
+            "A": "OpenCV",
+            "B": "TensorFlow",
+            "C": "MediaPipe",
+            "D": "PyTorch"
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto menciona explícitamente el uso de MediaPipe para la detección de manos.",
+          "seleccion_usuario": "C"
+        },
+        {
+          "enunciado": "¿Cuál es la función del módulo 'backend' en el proyecto?",
+          "opciones": {
+            "A": "Capturar y procesar imágenes de la webcam.",
+            "B": "Diseñar la interfaz web para configurar el sistema.",
+            "C": "Servir información al frontend y gestionar acciones.",
+            "D": "Almacenar los documentos subidos por el usuario."
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto indica que el backend se encarga de servir la información y gestionar las acciones del sistema.",
+          "seleccion_usuario": "A"
+        },
+        {
+          "enunciado": "¿Qué API podría utilizarse para enviar notificaciones en el proyecto de control gestual?",
+          "opciones": {
+            "A": "Discord",
+            "B": "Gmail",
+            "C": "WhatsApp",
+            "D": "Facebook Messenger"
+          },
+          "opcion_correcta": "A",
+          "explicacion": "El texto menciona Telegram o Discord como opciones para enviar notificaciones.",
+          "seleccion_usuario": "A"
+        },
+        {
+          "enunciado": "¿Cuál es el objetivo principal del proyecto de aplicación inteligente para estudiar?",
+          "opciones": {
+            "A": "Crear un juego educativo basado en conocimientos.",
+            "B": "Generar un sistema que lea documentos y cree exámenes automáticamente.",
+            "C": "Diseñar una plataforma para compartir apuntes entre estudiantes.",
+            "D": "Desarrollar un chatbot que responda preguntas de contenido académico."
+          },
+          "opcion_correcta": "B",
+          "explicacion": "El objetivo es construir una herramienta que lea documentos y genere exámenes tipo test, no simplemente almacenar apuntes o crear juegos educativos.",
+          "seleccion_usuario": "B"
+        },
+        {
+          "enunciado": "¿Qué tipo de preguntas se generan en la aplicación para estudiar?",
+          "opciones": {
+            "A": "Preguntas abiertas con respuestas extensas.",
+            "B": "Preguntas de verdadero/falso.",
+            "C": "Preguntas tipo test con respuestas seleccionables.",
+            "D": "Preguntas con opción múltiple y respuesta escrita."
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto menciona que se generan preguntas tipo test, con respuestas seleccionables entre A, B, C y D.",
+          "seleccion_usuario": "C"
+        },
+        {
+          "enunciado": "¿Qué módulo podría utilizarse para almacenar la información de los usuarios, documentos y exámenes en la aplicación?",
+          "opciones": {
+            "A": "Módulo de generación de preguntas.",
+            "B": "Módulo de corrección automática.",
+            "C": "Módulo de dashboard web.",
+            "D": "Módulo de almacenamiento de datos."
+          },
+          "opcion_correcta": "D",
+          "explicacion": "El texto menciona la necesidad de almacenar usuarios, documentos, exámenes y resultados, lo que indica un módulo dedicado a ese fin.",
+          "seleccion_usuario": "D"
+        },
+        {
+          "enunciado": "¿Qué característica se propone incluir en el proyecto para ayudar a los usuarios a mejorar?",
+          "opciones": {
+            "A": "Un sistema de chat con un tutor virtual.",
+            "B": "Una sección de noticias sobre temas relacionados con el estudio.",
+            "C": "Un modo 'repaso inteligente' que genera más preguntas sobre temas débiles.",
+            "D": "Un comparador de notas con otros estudiantes."
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto menciona la posibilidad de un modo 'repaso inteligente' para generar más preguntas en áreas donde el usuario suele fallar.",
+          "seleccion_usuario": "C"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-08T14:59:14.067218",
+    "nombre_examen": "",
+    "materia": "",
+    "dificultad": "Media",
+    "modelo": "gemma2:9b",
+    "texto_pdf": "Propuesta de proyecto de prácticas – Aplicación inteligente para estudiar con IA \nHola Laura, \nPara tu periodo de prácticas en Azken Muga queremos proponerte el desarrollo de \nuna aplicación orientada al estudio, el aprendizaje y la autoevaluación usando \ninteligencia artificial. \nLa idea principal del proyecto es construir una herramienta donde el usuario pueda \nsubir varios documentos de estudio, como apuntes, PDFs, manuales, temarios o \ntextos, y que el sistema sea capaz de leerlos, entender su contenido y generar \ncuestionarios automáticamente. \nDescripción general del proyecto \nLa aplicación deberá permitir que el usuario suba uno o varios documentos y, a \npartir de ellos, la IA genere preguntas tipo examen. \nEstas preguntas podrán ser de estilo test, con respuestas seleccionables tipo A, B, \nC y D, donde solo una sea correcta. Después de responder, el sistema deberá \ncorregir el examen y explicar brevemente por qué la respuesta correcta es esa, \nusando como base los documentos subidos. \nLa idea no es solo hacer preguntas aleatorias, sino crear una herramienta útil para \nestudiar de verdad. \nFuncionamiento esperado \nEl usuario podrá: \n• subir documentos de estudio \n• seleccionar sobre qué documentos quiere hacer el examen \n• elegir el número de preguntas \n• escoger dificultad: fácil, media o difícil \n• responder preguntas tipo test \n• recibir una corrección automática \n• ver la nota final del examen \n• revisar en qué preguntas ha fallado \n• consultar una explicación basada en los apuntes \nAdemás, sería interesante que la aplicación guardase los exámenes realizados \npara que el usuario pueda ver su evolución con el tiempo. \nDashboard web \nLa aplicación tendrá una interfaz web sencilla y clara donde el usuario pueda \ngestionar todo. Esta parte debería permitir: \n• ver los documentos subidos \n• crear nuevos exámenes \n• consultar exámenes anteriores \n• ver notas y porcentajes de acierto \n• detectar temas donde falla más \n• repetir preguntas falladas \n• ver una gráfica de progreso \n• eliminar documentos o exámenes antiguos \nTambién podría incluir un modo “repaso inteligente”, donde el sistema genere más \npreguntas sobre los temas en los que el usuario suele fallar. \nCosas interesantes que podría tener \n• modo examen normal \n• modo repaso de fallos \n• preguntas con explicación \n• historial de notas \n• estadísticas por documento \n• dificultad configurable \n• generación automática de tests \n• guardado de progreso \n• panel visual con evolución \n• opción de repetir un examen \nObjetivo de la práctica \nCon este proyecto buscamos evaluar la capacidad para crear una aplicación útil, \nbien organizada y con una aplicación real de inteligencia artificial. \nSe trabajarán varias partes importantes: \n• carga y lectura de documentos \n• extracción de información relevante \n• generación de preguntas con IA \n• corrección automática \n• diseño de una interfaz web \n• almacenamiento de usuarios, documentos, exámenes y resultados \n• visualización de progreso \nNo buscamos que el sistema sea perfecto desde el primer día, sino una primera \nversión funcional que permita subir documentos, generar preguntas, responderlas, \ncorregirlas y guardar los resultados. Pistas y recomendaciones \nUna buena forma de plantearlo sería dividir el proyecto en módulos: \n• módulo de subida de documentos \n• módulo de lectura de PDFs y textos \n• módulo de generación de preguntas con IA \n• módulo de exámenes \n• módulo de corrección \n• módulo de estadísticas \n• dashboard web \nA nivel técnico, podrían encajar tecnologías como Python, Flask o FastAPI, \nSQLite, HTML/CSS/JavaScript, lectura de PDFs y algún modelo de IA local o por \nAPI. \nResultado esperado \nAl finalizar, el usuario debería poder subir sus apuntes, generar un examen tipo \ntest, responderlo desde la web, recibir una corrección automática y ver su \nevolución con el tiempo. \nLa idea final es crear una herramienta de estudio inteligente, como una especie de \nprofesor personal que convierte apuntes en exámenes y ayuda al usuario a \nmejorar poco a poco. \n ",
+    "examen": {
+      "materia": "Desarrollo de Aplicaciones con IA",
+      "dificultad": "Media",
+      "preguntas": [
+        {
+          "enunciado": "Cuál es la función principal del proyecto propuesto?",
+          "opciones": {
+            "A": "Crear una plataforma social para estudiantes.",
+            "B": "Desarrollar un sistema de reconocimiento facial para exámenes online.",
+            "C": "Construir una aplicación que genere cuestionarios automáticamente a partir de documentos de estudio.",
+            "D": "Diseñar un juego educativo basado en la inteligencia artificial."
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto indica claramente que el proyecto busca desarrollar una herramienta donde el usuario pueda subir documentos y la IA genere cuestionarios automáticamente a partir de ellos."
+        },
+        {
+          "enunciado": "Qué tipo de preguntas se generan en la aplicación?",
+          "opciones": {
+            "A": "Preguntas abiertas de respuesta libre.",
+            "B": "Preguntas con imágenes para identificar objetos.",
+            "C": "Preguntas tipo test con respuestas seleccionables (A, B, C, D).",
+            "D": "Preguntas que requieren la escritura de código."
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto menciona específicamente las preguntas tipo test como parte del sistema."
+        },
+        {
+          "enunciado": "¿Qué características adicionales se mencionan para mejorar la experiencia de aprendizaje?",
+          "opciones": {
+            "A": "Integración con redes sociales para compartir progreso.",
+            "B": "Modo multijugador para competir con otros estudiantes.",
+            "C": "Repaso inteligente que genera más preguntas sobre temas débiles del usuario.",
+            "D": "Generación de informes detallados para profesores."
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto sugiere un modo "
         }
       ]
     }
