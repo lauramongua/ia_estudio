@@ -19,327 +19,614 @@
     </nav>
 
     <main class="main-content">
+
+        {# ===================== INICIO ===================== #}
         {% if seccion == 'inicio' %}
             <h1>Bienvenido a EstudiaIA</h1>
             <p>Selecciona una opción en el menú para empezar.</p>
-            {% if total_examenes is defined %}
-                <p>Has realizado <strong>{{ total_examenes }}</strong> examen{% if total_examenes != 1 %}es{% endif %} hasta ahora.</p>
-            {% else %}
-                <p>No se pudo cargar el número de exámenes realizados.</p>
-            {% endif %}
-        
+            <div class="stats-cards">
+                <div class="card">
+                    <h3>Total PDFs</h3>
+                    <p id="total-pdfs">Cargando...</p>
+                </div>
+                <div class="card">
+                    <h3>Exámenes Realizados</h3>
+                    <p>{{ total_examenes if total_examenes is defined else 0 }}</p>
+                </div>
+                <div class="card">
+                    <h3>Promedio de Calificaciones</h3>
+                    <p id="avg-score">-</p>
+                </div>
+            </div>
+            <script>
+                fetch('/api/listar-documentos')
+                    .then(r => r.json())
+                    .then(archivos => {
+                        document.getElementById('total-pdfs').textContent = archivos.length;
+                    })
+                    .catch(() => { document.getElementById('total-pdfs').textContent = 'Error'; });
+            </script>
+
+        {# ===================== DOCUMENTOS ===================== #}
         {% elif seccion == 'documentos' %}
             <h1>Documentos</h1>
             <p>Gestión de PDFs almacenados.</p>
-            <div id="listaDocumentos">
-                Cargando documentos...
-            </div>
+            <div id="listaDocumentos">Cargando documentos...</div>
             <script>
-                // Cargar lista de PDFs guardados
                 fetch('/api/listar-documentos')
                     .then(r => r.json())
                     .then(archivos => {
                         const cont = document.getElementById('listaDocumentos');
-                        if (archivos.length === 0) {
-                            cont.textContent = 'No hay documentos guardados.';
-                            return;
-                        }
+                        if (archivos.length === 0) { cont.textContent = 'No hay documentos guardados.'; return; }
                         const ul = document.createElement('ul');
                         archivos.forEach(f => {
                             const li = document.createElement('li');
                             li.textContent = f;
-                            // botón para seleccionar este documento al crear examen
-                            const btn = document.createElement('button');
-                            btn.type = 'button';
-                            btn.textContent = 'Usar en examen';
-                            btn.addEventListener('click', () => {
-                                // Guardamos el nombre del archivo seleccionado en localStorage para usarlo luego
-                                const seleccionados = JSON.parse(localStorage.getItem('pdfSeleccionados') || '[]');
-                                if (!seleccionados.includes(f)) {
-                                    seleccionados.push(f);
-                                    localStorage.setItem('pdfSeleccionados', JSON.stringify(seleccionados));
-                                    alert(`"${f}" añadido a la lista de PDFs para el examen.`);
-                                }
-                            });
-                            li.appendChild(document.createTextNode(' '));
-                            li.appendChild(btn);
                             ul.appendChild(li);
                         });
                         cont.innerHTML = '';
                         cont.appendChild(ul);
                     })
-                    .catch(err => {
-                        document.getElementById('listaDocumentos').textContent = 'Error al cargar documentos.';
-                    });
+                    .catch(() => { document.getElementById('listaDocumentos').textContent = 'Error al cargar documentos.'; });
             </script>
 
+        {# ===================== CREAR EXAMEN ===================== #}
         {% elif seccion == 'crear_examen' %}
             <h1>Crear examen</h1>
             <div class="crearExamenWrapper">
-                    <!-- Lateral izquierdo: lista de documentos -->
-                    <div class="documentosSeleccionados">
-                        <h3>Documentos guardados</h3>
-                        <div id="listaDocumentosCrear">Cargando documentos...</div>
+
+                <!-- Sidebar izquierdo: documentos guardados -->
+                <div class="documentosSeleccionados">
+                    <h3>Documentos guardados</h3>
+                    <div id="listaDocumentosCrear">Cargando...</div>
+                </div>
+
+                <!-- Área principal -->
+                <div class="examenContent">
+
+                    <!-- FASE 1: Formulario de configuración -->
+                    <div id="faseFormulario" class="examenContainer">
+                        <form id="formExamen" enctype="multipart/form-data">
+
+                            <label for="pdf">Sube tu PDF:</label>
+                            <input type="file" id="pdf" name="pdf" accept=".pdf" multiple>
+
+                            <label for="titulo_examen">Título del examen:</label>
+                            <input type="text" id="titulo_examen" name="titulo_examen" placeholder="Ej: Física">
+
+                            <label for="dificultad">Dificultad:</label>
+                            <select name="dificultad" id="dificultad">
+                                <option value="Facil">Fácil</option>
+                                <option value="Media" selected>Media</option>
+                                <option value="Dificil">Difícil</option>
+                            </select>
+
+                            <label for="modelo_ollama">Selecciona tu IA:</label>
+                            <select name="modelo_ollama" id="modelo_ollama">
+                                {% for modelo in modelos %}
+                                    <option value="{{ modelo }}">{{ modelo }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <label for="num_preguntas">Número de preguntas:</label>
+                            <input type="number" id="num_preguntas" name="num_preguntas" min="1" value="5">
+
+                            <button type="submit" id="btnGenerar">¡Generar Examen!</button>
+                            <div id="mensajeGenerando" style="display:none; margin-top:10px; color:#EB7F28; font-weight:bold;">
+                                ⏳ Generando examen con IA, espera un momento...
+                            </div>
+                            <div id="errorGenerar" style="display:none; color:red; margin-top:10px;"></div>
+                        </form>
                     </div>
 
-                    <!-- Área principal: formulario y resultados apilados verticalmente -->
-                    <div class="examenContent">
-                        <div class="examenContainer">
-                            <form id="formExamen" enctype="multipart/form-data">
-                <label for="pdf">Sube tu PDF:</label>
-                <input type="file" id="pdf" name="pdf" accept=".pdf" multiple>
-                <label for="titulo_examen">Título del examen:</label>
-                <input type="text" id="titulo_examen" name="titulo_examen" placeholder="Ej: Física" />
-                <label for="dificultad">Dificultad:</label>
-                <select name="dificultad" id="dificultad">
-                    <option value="Facil">Fácil</option>
-                    <option value="Media" selected>Media</option>
-                    <option value="Dificil">Difícil</option>
-                </select>
-                <label for="modelo_ollama">Selecciona tu IA:</label>
-                <select name="modelo_ollama" id="modelo_ollama">
-                    {% for modelo in modelos %}
-                        <option value="{{ modelo }}">{{ modelo }}</option>
-                    {% endfor %}
-                </select>
+                    <!-- FASE 2: Preguntas del examen para responder (oculto hasta que se genere) -->
+                    <div id="faseExamen" style="display:none;" class="examenContainer">
+                        <h2 id="tituloExamen"></h2>
+                        <p id="subtituloExamen" style="color:#aaa;"></p>
+                        <div id="preguntasContainer"></div>
+                        <div style="margin-top:20px;">
+                            <button id="btnCorregir" type="button">✅ Corregir examen</button>
+                            <button id="btnNuevoExamen" type="button" style="margin-left:10px;">🔄 Nuevo examen</button>
+                        </div>
+                    </div>
 
-                <!-- Número de preguntas a responder -->
-                <label for="num_responder">Número de preguntas a responder:</label>
-                <input type="number" id="num_responder" name="num_responder" min="1" value="5" />
+                    <!-- FASE 3: Corrección (oculto hasta que se corrija) -->
+                    <div id="faseCorreccion" style="display:none;" class="examenContainer">
+                        <h2>Corrección del examen</h2>
+                        <div id="resumenNota" style="font-size:1.4em; font-weight:bold; margin-bottom:15px;"></div>
+                        <div id="correccionContainer"></div>
+                        <div style="margin-top:20px;">
+                            <button id="btnVerTips" type="button">💡 Generar Tips IA</button>
+                            <button id="btnOtroExamen" type="button" style="margin-left:10px;">🔄 Hacer otro examen</button>
+                        </div>
+                        <div id="tipsContainer" style="display:none; margin-top:15px; padding:12px; border-radius:8px; background:#1e2a3a;"></div>
+                    </div>
 
-                <button type="submit">¡Generar Examen!</button>
-                <!-- Cargar lista de PDFs guardados en el sidebar izquierdo -->
-                <script>
-                    // Cargar lista de PDFs guardados en el sidebar izquierdo
-                    fetch('/api/listar-documentos')
-                        .then(r => r.json())
-                        .then(archivos => {
-                            const cont = document.getElementById('listaDocumentosCrear');
-                            if (archivos.length === 0) {
-                                cont.textContent = 'No hay documentos guardados.';
-                                return;
-                            }
-                            const ul = document.createElement('ul');
-                            archivos.forEach(f => {
-                                const li = document.createElement('li');
-                                const checkbox = document.createElement('input');
-                                checkbox.type = 'checkbox';
-                                checkbox.value = f;
-                                checkbox.id = `doc_${f}`;
-                                const label = document.createElement('label');
-                                label.htmlFor = checkbox.id;
-                                label.textContent = f;
-                                li.appendChild(checkbox);
-                                li.appendChild(label);
-                                ul.appendChild(li);
+                </div>
+            </div>
+
+            <script>
+            // ── Variables globales de esta página ──
+            let examenActual = null;   // JSON del examen generado
+            let histIndexActual = null; // índice en historico.json
+
+            // ── Cargar sidebar de documentos guardados ──
+            fetch('/api/listar-documentos')
+                .then(r => r.json())
+                .then(archivos => {
+                    const cont = document.getElementById('listaDocumentosCrear');
+                    if (archivos.length === 0) { cont.textContent = 'No hay documentos guardados.'; return; }
+                    const ul = document.createElement('ul');
+                    archivos.forEach(f => {
+                        const li = document.createElement('li');
+                        const cb = document.createElement('input');
+                        cb.type = 'checkbox';
+                        cb.name = 'pdf_existing';
+                        cb.value = f;
+                        cb.id = 'doc_' + f;
+                        const lbl = document.createElement('label');
+                        lbl.htmlFor = cb.id;
+                        lbl.textContent = ' ' + f;
+                        li.appendChild(cb);
+                        li.appendChild(lbl);
+                        ul.appendChild(li);
+                    });
+                    cont.innerHTML = '';
+                    cont.appendChild(ul);
+                })
+                .catch(() => { document.getElementById('listaDocumentosCrear').textContent = 'Error al cargar.'; });
+
+            // ── Envío del formulario vía fetch (sin recarga de página) ──
+            document.getElementById('formExamen').addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const btnGenerar = document.getElementById('btnGenerar');
+                const mensajeGenerando = document.getElementById('mensajeGenerando');
+                const errorDiv = document.getElementById('errorGenerar');
+
+                btnGenerar.disabled = true;
+                mensajeGenerando.style.display = 'block';
+                errorDiv.style.display = 'none';
+
+                try {
+                    const formData = new FormData(this);
+
+                    // Añadir checkboxes del sidebar (están fuera del form)
+                    document.querySelectorAll('#listaDocumentosCrear input[type=checkbox]:checked').forEach(cb => {
+                        formData.append('pdf_existing', cb.value);
+                    });
+
+                    const resp = await fetch('/api/generar-examen', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await resp.json();
+
+                    if (data.status !== 'success') {
+                        throw new Error(data.message || 'Error desconocido del servidor');
+                    }
+
+                    examenActual = data.examen;
+                    histIndexActual = data.hist_index;
+
+                    mostrarFaseExamen(examenActual);
+
+                } catch(err) {
+                    errorDiv.textContent = '❌ Error: ' + err.message;
+                    errorDiv.style.display = 'block';
+                } finally {
+                    btnGenerar.disabled = false;
+                    mensajeGenerando.style.display = 'none';
+                }
+            });
+
+            // ── Renderiza las preguntas para que el usuario las responda ──
+            function mostrarFaseExamen(examen) {
+                document.getElementById('faseFormulario').style.display = 'none';
+                document.getElementById('faseCorreccion').style.display = 'none';
+                document.getElementById('faseExamen').style.display = 'block';
+
+                document.getElementById('tituloExamen').textContent = examen.materia || 'Examen';
+                document.getElementById('subtituloExamen').textContent =
+                    `Dificultad: ${examen.dificultad || '-'} · ${(examen.preguntas || []).length} preguntas`;
+
+                const cont = document.getElementById('preguntasContainer');
+                cont.innerHTML = '';
+
+                (examen.preguntas || []).forEach((p, idx) => {
+                    const qDiv = document.createElement('div');
+                    qDiv.className = 'examQuestion';
+                    qDiv.style.marginBottom = '20px';
+                    qDiv.style.padding = '15px';
+                    qDiv.style.borderRadius = '8px';
+                    qDiv.style.background = '#1a1a2e';
+
+                    const enunciado = document.createElement('p');
+                    enunciado.style.fontWeight = 'bold';
+                    enunciado.style.marginBottom = '10px';
+                    enunciado.textContent = `${idx + 1}. ${p.enunciado}`;
+                    qDiv.appendChild(enunciado);
+
+                    // Opciones como radio buttons
+                    Object.entries(p.opciones || {}).forEach(([letra, texto]) => {
+                        const opDiv = document.createElement('div');
+                        opDiv.style.marginBottom = '6px';
+                        opDiv.style.cursor = 'pointer';
+                        opDiv.style.padding = '8px 12px';
+                        opDiv.style.borderRadius = '6px';
+                        opDiv.style.border = '1px solid #333';
+                        opDiv.style.transition = 'background 0.2s';
+                        opDiv.dataset.letra = letra;
+                        opDiv.dataset.pregIdx = idx;
+
+                        opDiv.addEventListener('click', () => {
+                            // Desmarcar todas las opciones de esta pregunta
+                            qDiv.querySelectorAll('.opcion-item').forEach(o => {
+                                o.style.background = '';
+                                o.style.borderColor = '#333';
+                                o.dataset.seleccionada = 'false';
                             });
-                            cont.innerHTML = '';
-                            cont.appendChild(ul);
-                        })
-                        .catch(err => {
-                            document.getElementById('listaDocumentosCrear').textContent = 'Error al cargar documentos.';
+                            // Marcar la seleccionada
+                            opDiv.style.background = '#EB7F28';
+                            opDiv.style.borderColor = '#EB7F28';
+                            opDiv.dataset.seleccionada = 'true';
                         });
-                </script>
 
+                        opDiv.classList.add('opcion-item');
+                        opDiv.dataset.seleccionada = 'false';
+                        opDiv.textContent = `${letra}: ${texto}`;
+                        qDiv.appendChild(opDiv);
+                    });
+
+                    cont.appendChild(qDiv);
+                });
+            }
+
+            // ── Botón "Nuevo examen" → vuelve al formulario ──
+            document.getElementById('btnNuevoExamen').addEventListener('click', () => {
+                document.getElementById('faseExamen').style.display = 'none';
+                document.getElementById('faseFormulario').style.display = 'block';
+            });
+
+            // ── Botón "Corregir examen" ──
+            document.getElementById('btnCorregir').addEventListener('click', async () => {
+                const preguntas = examenActual.preguntas || [];
+                const selections = [];
+
+                // Recoger respuestas seleccionadas
+                document.querySelectorAll('#preguntasContainer .examQuestion').forEach((qDiv, idx) => {
+                    const seleccionada = qDiv.querySelector('.opcion-item[data-seleccionada="true"]');
+                    const respuesta = seleccionada ? seleccionada.dataset.letra : null;
+                    selections.push({ pregunta_idx: idx, respuesta });
+                    if (preguntas[idx]) preguntas[idx].seleccion_usuario = respuesta;
+                });
+
+                // Guardar selecciones en el servidor
+                if (histIndexActual !== null) {
+                    try {
+                        await fetch(`/api/historial/${histIndexActual}/seleccion`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ selections })
+                        });
+                    } catch(e) {
+                        console.warn('No se pudieron guardar las selecciones:', e);
+                    }
+                }
+
+                mostrarFaseCorreccion(preguntas);
+            });
+
+            // ── Renderiza la corrección ──
+            function mostrarFaseCorreccion(preguntas) {
+                document.getElementById('faseExamen').style.display = 'none';
+                document.getElementById('faseCorreccion').style.display = 'block';
+
+                let correctas = 0;
+                const cont = document.getElementById('correccionContainer');
+                cont.innerHTML = '';
+
+                preguntas.forEach((p, idx) => {
+                    const selU = p.seleccion_usuario ? p.seleccion_usuario.trim().toUpperCase() : null;
+                    const corr = p.opcion_correcta ? p.opcion_correcta.trim().toUpperCase() : null;
+                    const acerto = selU && selU === corr;
+                    if (acerto) correctas++;
+
+                    const qDiv = document.createElement('div');
+                    qDiv.style.marginBottom = '18px';
+                    qDiv.style.padding = '15px';
+                    qDiv.style.borderRadius = '8px';
+                    qDiv.style.background = '#1a1a2e';
+                    qDiv.style.borderLeft = `4px solid ${acerto ? '#4caf50' : (selU ? '#f44336' : '#888')}`;
+
+                    const enunciado = document.createElement('p');
+                    enunciado.style.fontWeight = 'bold';
+                    enunciado.style.marginBottom = '10px';
+                    enunciado.textContent = `${idx + 1}. ${p.enunciado}`;
+                    qDiv.appendChild(enunciado);
+
+                    // Opciones con colores de resultado
+                    const ul = document.createElement('ul');
+                    ul.style.listStyle = 'none';
+                    ul.style.padding = '0';
+                    Object.entries(p.opciones || {}).forEach(([letra, texto]) => {
+                        const li = document.createElement('li');
+                        li.style.padding = '6px 10px';
+                        li.style.borderRadius = '5px';
+                        li.style.marginBottom = '4px';
+                        const letraUp = letra.trim().toUpperCase();
+                        const esCorrecta = letraUp === corr;
+                        const esSeleccionada = letraUp === selU;
+
+                        if (esSeleccionada && acerto) {
+                            li.style.background = '#1b5e20';
+                            li.style.color = '#a5d6a7';
+                            li.textContent = `✅ ${letra}: ${texto} (Tu respuesta - Correcta)`;
+                        } else if (esSeleccionada && !acerto) {
+                            li.style.background = '#b71c1c';
+                            li.style.color = '#ef9a9a';
+                            li.textContent = `❌ ${letra}: ${texto} (Tu respuesta - Incorrecta)`;
+                        } else if (esCorrecta) {
+                            li.style.background = '#1b5e20';
+                            li.style.color = '#a5d6a7';
+                            li.textContent = `✅ ${letra}: ${texto} (Correcta)`;
+                        } else {
+                            li.style.color = '#aaa';
+                            li.textContent = `${letra}: ${texto}`;
+                        }
+                        ul.appendChild(li);
+                    });
+                    qDiv.appendChild(ul);
+
+                    // Feedback / explicación
+                    const fb = document.createElement('div');
+                    fb.style.marginTop = '10px';
+                    fb.style.padding = '8px';
+                    fb.style.borderRadius = '5px';
+                    fb.style.fontSize = '0.9em';
+                    if (!selU) {
+                        fb.style.color = '#888';
+                        fb.textContent = '⚠️ No respondiste esta pregunta.';
+                    } else if (acerto) {
+                        fb.style.color = '#81c784';
+                        fb.textContent = `💡 ${p.explicacion || ''}`;
+                    } else {
+                        fb.style.color = '#ef9a9a';
+                        fb.textContent = `💡 ${p.explicacion || ''}`;
+                    }
+                    qDiv.appendChild(fb);
+                    cont.appendChild(qDiv);
+                });
+
+                // Nota final
+                const total = preguntas.length;
+                const nota = total > 0 ? ((correctas / total) * 10).toFixed(1) : '-';
+                const color = correctas / total >= 0.5 ? '#4caf50' : '#f44336';
+                document.getElementById('resumenNota').innerHTML =
+                    `Resultado: <span style="color:${color}">${correctas} / ${total} correctas · Nota: ${nota}</span>`;
+            }
+
+            // ── Botón "Hacer otro examen" ──
+            document.getElementById('btnOtroExamen').addEventListener('click', () => {
+                document.getElementById('faseCorreccion').style.display = 'none';
+                document.getElementById('faseFormulario').style.display = 'block';
+                examenActual = null;
+                histIndexActual = null;
+            });
+
+            // ── Botón Tips IA ──
+            document.getElementById('btnVerTips').addEventListener('click', async () => {
+                const tipsDiv = document.getElementById('tipsContainer');
+                tipsDiv.style.display = 'block';
+                tipsDiv.innerHTML = '⏳ Generando tips...';
+                try {
+                    const resp = await fetch('/api/generar-tips', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ examen: examenActual })
+                    });
+                    const data = await resp.json();
+                    if (data.status !== 'success') throw new Error(data.message);
+                    tipsDiv.innerHTML = '<h4>💡 Tips para mejorar:</h4>';
+                    const ul = document.createElement('ul');
+                    data.tips.forEach(t => {
+                        const li = document.createElement('li');
+                        li.textContent = t;
+                        ul.appendChild(li);
+                    });
+                    tipsDiv.appendChild(ul);
+                } catch(err) {
+                    tipsDiv.innerHTML = `<span style="color:red">Error generando tips: ${err.message}</span>`;
+                }
+            });
+            </script>
+
+        {# ===================== HISTORIAL ===================== #}
         {% elif seccion == 'historial' %}
             <h1>Historial</h1>
             <p>Aquí verás tus exámenes pasados.</p>
+
             {% if historico %}
-                <ul class="histList">
+                <ul class="histList" id="histList">
                     {% for entry in historico %}
-                        {# Definimos el nombre a mostrar: nombre de materia, o fecha + número #}
                         {% set display_name = entry.examen.materia if entry.examen and entry.examen.materia else "Examen " + (loop.index|string) %}
-                        
                         <li class="histEntry" data-index="{{ loop.index0 }}">
-                            <div class="entryHeader" style="padding: 10px; border-bottom: 1px solid #444;">
-                                <span class="histDate"><strong>{{ entry.timestamp }}</strong></span>
-                                <br>
-                                <span class="histTitle" style="font-size: 1.1em; color: #bb86fc;">
-                                    {{ display_name }}
-                                </span>
-                                <br>
-                                <button type="button" class="viewExamBtn" style="margin-top: 5px;">Ver examen</button>
+                            <div class="entryHeader" style="padding:10px; border-bottom:1px solid #444; display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <span style="color:#aaa;">{{ entry.timestamp.split('T')[0] }}</span>
+                                    &nbsp;
+                                    <span style="font-size:1.1em; color:#bb86fc;">{{ display_name }}</span>
+                                    &nbsp;·&nbsp;
+                                    <span style="color:#888; font-size:0.9em;">{{ entry.dificultad if entry.dificultad else '' }}</span>
+                                </div>
+                                <div>
+                                    <button type="button" class="viewExamBtn">Ver examen</button>
+                                    <button type="button" class="deleteExamBtn" style="margin-left:8px; background:#c62828;">Borrar</button>
+                                </div>
                             </div>
-                            <div class="examDetails" style="display:none; margin-top:10px; padding: 10px;"></div>
+                            <div class="examDetails" style="display:none; margin-top:10px; padding:10px;"></div>
                         </li>
                     {% endfor %}
                 </ul>
-            {% else %}
-                <p>No hay exámenes guardados.</p>
-            {% endif %}
-        {% endif %}
-    </main>
 
-    <script>
-        function toggleMenu() {
-            document.querySelector('.navbar ul').classList.toggle('active');
-        }
-        </script>
+                <script>
+                document.getElementById('histList').addEventListener('click', function(e) {
 
-    <script>
-        // Handler for "Ver examen" buttons in historial
-        document.addEventListener('click', function(e) {
-            // View exam button
-            if (e.target && e.target.classList.contains('viewExamBtn')) {
-                const li = e.target.closest('li.histEntry');
-                const index = parseInt(li.getAttribute('data-index'));
-                const detailsDiv = li.querySelector('.examDetails');
-                // Toggle visibility
-                if (detailsDiv.style.display === 'none' || detailsDiv.innerHTML.trim() === '') {
-                    fetch(`/api/historial/${index}`)
-                        .then(r => {
-                            if (!r.ok) throw new Error(`HTTP ${r.status}`);
-                            return r.json();
-                        })
-                        .then(resp => {
-                            if (resp.status !== 'success') throw new Error(resp.message);
-                            const entry = resp.entry;
-                            if (!entry || !entry.examen) {
-                                alert('Examen no disponible en la respuesta.');
-                                return;
-                            }
-                            // Render exam JSON pretty
-                            // Build a friendly HTML view of the exam with selectable options
-                            const containerExam = document.createElement('div');
-                            const title = document.createElement('h3');
-                            title.textContent = entry.examen.materia || 'Examen generado';
-                            containerExam.appendChild(title);
-                            // Iterate over preguntas and display stored user selection
-                            (entry.examen.preguntas || []).forEach((p, idx) => {
-                                const qDiv = document.createElement('div');
-                                qDiv.className = 'examQuestion';
-                                const enunciado = document.createElement('p');
-                                enunciado.textContent = `${idx + 1}. ${p.enunciado}`;
-                                qDiv.appendChild(enunciado);
-                                // opciones como lista, resaltando la respuesta guardada y mostrando si es correcta
-                                // --- COMIENZA EL BLOQUE A REEMPLAZAR ---
+                    // ── Ver / Ocultar examen ──
+                    if (e.target.classList.contains('viewExamBtn')) {
+                        const li = e.target.closest('li.histEntry');
+                        const index = parseInt(li.getAttribute('data-index'));
+                        const detailsDiv = li.querySelector('.examDetails');
 
-// Opciones A-D
-const ul = document.createElement('ul');
-Object.entries(p.opciones || {}).forEach(([letra, texto]) => {
-    const li = document.createElement('li');
-    
-    // Normalizamos para comparar sin importar mayúsculas/minúsculas
-    const selU = p.seleccion_usuario ? p.seleccion_usuario.trim().toUpperCase() : null;
-    const corr = p.opcion_correcta ? p.opcion_correcta.trim().toUpperCase() : null;
-    const esCorrecta = (letra.trim().toUpperCase() === corr);
-    const esSeleccionada = (selU === letra.trim().toUpperCase());
+                        if (detailsDiv.style.display !== 'none') {
+                            detailsDiv.style.display = 'none';
+                            e.target.textContent = 'Ver examen';
+                            return;
+                        }
 
-    if (esSeleccionada) {
-        li.style.fontWeight = 'bold';
-        li.textContent = `${letra}: ${texto} (Tu respuesta)`;
-        li.style.color = (selU === corr) ? 'green' : 'red';
-    } else {
-        li.textContent = `${letra}: ${texto}`;
-        if (esCorrecta) {
-            li.style.color = 'green';
-            li.textContent += " (Correcta)";
-        }
-    }
-    ul.appendChild(li);
-});
-qDiv.appendChild(ul);
+                        e.target.textContent = 'Cargando...';
+                        e.target.disabled = true;
 
-// Feedback corregido
-const feedback = document.createElement('div');
-feedback.className = 'feedback';
-feedback.style.marginTop = '10px';
-feedback.style.padding = '8px';
-feedback.style.borderRadius = '5px';
+                        fetch(`/api/historial/${index}`)
+                            .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+                            .then(resp => {
+                                const entry = resp.entry;
+                                if (!entry || !entry.examen) { alert('Examen no disponible.'); return; }
 
-if (p.seleccion_usuario) {
-    const selU = p.seleccion_usuario.trim().toUpperCase();
-    const corr = p.opcion_correcta.trim().toUpperCase();
-    
-    if (selU === corr) {
-        feedback.style.backgroundColor = '#e8f5e9'; // Verde suave
-        feedback.style.color = '#2e7d32';
-        feedback.textContent = `✅ ¡Correcto! ${p.explicacion || ''}`;
-    } else {
-        feedback.style.backgroundColor = '#ffebee'; // Rojo suave
-        feedback.style.color = '#c62828';
-        feedback.textContent = `❌ Incorrecto. Elegiste '${selU}', pero la correcta era '${corr}'. ${p.explicacion || ''}`;
-    }
-} else {
-    feedback.textContent = "No respondiste a esta pregunta.";
-}
-qDiv.appendChild(feedback);
+                                const preguntas = entry.examen.preguntas || [];
+                                let correctas = 0;
 
-// --- TERMINA EL BLOQUE A REEMPLAZAR ---
-                                containerExam.appendChild(qDiv);
-                            });
-                            // Button to get tips
-                            const tipBtn = document.createElement('button');
-                            tipBtn.type = 'button';
-                            tipBtn.textContent = 'Generar Tips IA';
-                            tipBtn.addEventListener('click', () => {
-                                fetch('/api/generar-tips', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ examen: entry.examen })
-                                })
-                                .then(r => r.json())
-                                .then(tipResp => {
-                                    if (tipResp.status === 'success') {
-                                        alert('Tips:\n' + tipResp.tips.join('\n'));
-                                    } else {
-                                        alert('Error generando tips: ' + tipResp.message);
+                                const container = document.createElement('div');
+
+                                preguntas.forEach((p, idx) => {
+                                    const selU = p.seleccion_usuario ? p.seleccion_usuario.trim().toUpperCase() : null;
+                                    const corr = p.opcion_correcta ? p.opcion_correcta.trim().toUpperCase() : null;
+                                    const acerto = selU && selU === corr;
+                                    if (acerto) correctas++;
+
+                                    const qDiv = document.createElement('div');
+                                    qDiv.style.marginBottom = '15px';
+                                    qDiv.style.padding = '12px';
+                                    qDiv.style.borderRadius = '8px';
+                                    qDiv.style.background = '#1a1a2e';
+                                    qDiv.style.borderLeft = `4px solid ${acerto ? '#4caf50' : (selU ? '#f44336' : '#888')}`;
+
+                                    const enun = document.createElement('p');
+                                    enun.style.fontWeight = 'bold';
+                                    enun.textContent = `${idx + 1}. ${p.enunciado}`;
+                                    qDiv.appendChild(enun);
+
+                                    const ul = document.createElement('ul');
+                                    ul.style.listStyle = 'none';
+                                    ul.style.padding = '0';
+                                    Object.entries(p.opciones || {}).forEach(([letra, texto]) => {
+                                        const li2 = document.createElement('li');
+                                        li2.style.padding = '5px 10px';
+                                        li2.style.borderRadius = '5px';
+                                        li2.style.marginBottom = '3px';
+                                        const letraUp = letra.trim().toUpperCase();
+                                        const esCorrecta = letraUp === corr;
+                                        const esSeleccionada = letraUp === selU;
+
+                                        if (esSeleccionada && acerto) {
+                                            li2.style.background = '#1b5e20'; li2.style.color = '#a5d6a7';
+                                            li2.textContent = `✅ ${letra}: ${texto} (Tu respuesta - Correcta)`;
+                                        } else if (esSeleccionada && !acerto) {
+                                            li2.style.background = '#b71c1c'; li2.style.color = '#ef9a9a';
+                                            li2.textContent = `❌ ${letra}: ${texto} (Tu respuesta - Incorrecta)`;
+                                        } else if (esCorrecta) {
+                                            li2.style.background = '#1b5e20'; li2.style.color = '#a5d6a7';
+                                            li2.textContent = `✅ ${letra}: ${texto} (Correcta)`;
+                                        } else {
+                                            li2.style.color = '#aaa';
+                                            li2.textContent = `${letra}: ${texto}`;
+                                        }
+                                        ul.appendChild(li2);
+                                    });
+                                    qDiv.appendChild(ul);
+
+                                    if (p.explicacion) {
+                                        const exp = document.createElement('div');
+                                        exp.style.marginTop = '8px';
+                                        exp.style.fontSize = '0.85em';
+                                        exp.style.color = '#aaa';
+                                        exp.textContent = `💡 ${p.explicacion}`;
+                                        qDiv.appendChild(exp);
+                                    }
+                                    container.appendChild(qDiv);
+                                });
+
+                                // Resumen nota
+                                const total = preguntas.length;
+                                const nota = total > 0 ? ((correctas / total) * 10).toFixed(1) : '-';
+                                const resumen = document.createElement('div');
+                                resumen.style.fontWeight = 'bold';
+                                resumen.style.fontSize = '1.2em';
+                                resumen.style.marginBottom = '15px';
+                                resumen.style.color = correctas / total >= 0.5 ? '#4caf50' : '#f44336';
+                                resumen.textContent = `Resultado: ${correctas} / ${total} correctas · Nota: ${nota}`;
+                                container.insertBefore(resumen, container.firstChild);
+
+                                // Botón tips
+                                const tipBtn = document.createElement('button');
+                                tipBtn.type = 'button';
+                                tipBtn.textContent = '💡 Generar Tips IA';
+                                tipBtn.style.marginTop = '10px';
+                                const tipsDiv = document.createElement('div');
+                                tipsDiv.style.display = 'none';
+                                tipBtn.addEventListener('click', async () => {
+                                    tipsDiv.style.display = 'block';
+                                    tipsDiv.textContent = 'Generando tips...';
+                                    try {
+                                        const tr = await fetch('/api/generar-tips', {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({ examen: entry.examen })
+                                        });
+                                        const td = await tr.json();
+                                        if (td.status !== 'success') throw new Error(td.message);
+                                        tipsDiv.innerHTML = '<strong>💡 Tips:</strong><ul>' +
+                                            td.tips.map(t => `<li>${t}</li>`).join('') + '</ul>';
+                                    } catch(err) {
+                                        tipsDiv.textContent = 'Error: ' + err.message;
+                                        tipsDiv.style.color = 'red';
                                     }
                                 });
-                            });
 
-                            // Add delete button inside the exam view
-                            const delBtn = document.createElement('button');
-                            delBtn.type = 'button';
-                            delBtn.textContent = 'Borrar examen';
-                            delBtn.style.marginLeft = '10px';
-                            delBtn.addEventListener('click', () => {
-                                if (!confirm('¿Seguro que deseas borrar este examen del historial?')) return;
-                                fetch(`/api/historial/${index}`, { method: 'DELETE' })
-                                    .then(r => {
-                                        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-                                        return r.json();
-                                    })
-                                    .then(resp => {
-                                        if (resp.status !== 'success') throw new Error(resp.message);
-                                        // Remove the whole entry from DOM
-                                        li.remove();
-                                    })
-                                    .catch(err => alert('Error al borrar examen: ' + err.message));
-                            });
+                                detailsDiv.innerHTML = '';
+                                detailsDiv.appendChild(container);
+                                detailsDiv.appendChild(tipBtn);
+                                detailsDiv.appendChild(tipsDiv);
+                                detailsDiv.style.display = 'block';
+                                e.target.textContent = 'Ocultar examen';
+                            })
+                            .catch(err => alert('Error cargando examen: ' + err.message))
+                            .finally(() => { e.target.disabled = false; });
+                    }
 
-                            // Clear previous and append formatted exam view with delete button
-                            detailsDiv.innerHTML = '';
-                            detailsDiv.appendChild(containerExam);
-                            detailsDiv.appendChild(tipBtn);
-                            detailsDiv.appendChild(delBtn);
-                            detailsDiv.style.display = 'block';
-                        })
-                        .catch(err => {
-                            alert('Error cargando examen: ' + err.message);
-                        });
-                } else {
-                    // hide
-                    detailsDiv.style.display = 'none';
-                }
-            }
-            // Delete exam button
-            if (e.target && e.target.classList.contains('deleteExamBtn')) {
-                const li = e.target.closest('li.histEntry');
-                const index = parseInt(li.getAttribute('data-index'));
-                if (!confirm('¿Seguro que deseas borrar este examen del historial?')) return;
-                fetch(`/api/historial/${index}`, { method: 'DELETE' })
-                    .then(r => {
-                        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-                        return r.json();
-                    })
-                    .then(resp => {
-                        if (resp.status !== 'success') throw new Error(resp.message);
-                        // Remove the entry from DOM
-                        li.remove();
-                    })
-                    .catch(err => alert('Error al borrar examen: ' + err.message));
-            }
-        });
-    </script>
-            </div>
+                    // ── Borrar examen ──
+                    if (e.target.classList.contains('deleteExamBtn')) {
+                        const li = e.target.closest('li.histEntry');
+                        const index = parseInt(li.getAttribute('data-index'));
+                        if (!confirm('¿Seguro que deseas borrar este examen?')) return;
+                        fetch(`/api/historial/${index}`, { method: 'DELETE' })
+                            .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+                            .then(resp => {
+                                if (resp.status !== 'success') throw new Error(resp.message);
+                                li.remove();
+                            })
+                            .catch(err => alert('Error al borrar: ' + err.message));
+                    }
+                });
+                </script>
+
+            {% else %}
+                <p>No hay exámenes en el historial todavía.</p>
+            {% endif %}
+
+        {% endif %}
+
+    </main>
+
+</body>
+</html>

@@ -65,5 +65,130 @@
         }
       ]
     }
+  },
+  {
+    "timestamp": "2026-06-08T09:17:41.971041",
+    "nombre_examen": "",
+    "materia": "",
+    "dificultad": "Media",
+    "modelo": "gemma2:9b",
+    "examen": {
+      "materia": "Inteligencia Artificial y Desarrollo Web",
+      "dificultad": "Media",
+      "preguntas": [
+        {
+          "enunciado": "Cuál es el objetivo principal del proyecto de aplicación propuesto?",
+          "opciones": {
+            "A": "Crear una plataforma social para estudiantes.",
+            "B": "Desarrollar un sistema de chat con IA.",
+            "C": "Construir una herramienta para estudiar y autoevaluarse mediante IA.",
+            "D": "Generar textos creativos utilizando algoritmos de aprendizaje automático."
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto menciona que el objetivo es construir una herramienta donde los usuarios puedan subir documentos y la IA genere cuestionarios automáticamente para ayudarles a estudiar y autoevaluarse."
+        },
+        {
+          "enunciado": " ¿Qué tipo de preguntas se generarán automáticamente por la aplicación?",
+          "opciones": {
+            "A": "Preguntas abiertas con respuestas libres.",
+            "B": "Preguntas de verdadero o falso.",
+            "C": "Preguntas tipo test con respuestas seleccionables (A, B, C, D).",
+            "D": "Preguntas que requieren la escritura de código."
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto especifica que las preguntas serán de estilo test, con opciones tipo A, B, C y D, donde solo una será correcta."
+        },
+        {
+          "enunciado": " ¿Qué funcionalidad permitiría a los usuarios revisar sus progresos en el estudio?",
+          "opciones": {
+            "A": "Comparte sus resultados en redes sociales.",
+            "B": "Participar en debates con otros estudiantes sobre los temas estudiados.",
+            "C": "Ver su historial de notas, porcentajes de acierto y estadísticas por documento.",
+            "D": "Solicitar a un tutor que revise sus exámenes."
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto menciona la posibilidad de ver una gráfica de progreso, historial de notas, porcentajes de acierto y estadísticas por documento."
+        },
+        {
+          "enunciado": " ¿Qué tecnologías se sugieren para el desarrollo del proyecto?",
+          "opciones": {
+            "A": "Java, SQL y React.",
+            "B": "Python, Flask o FastAPI, SQLite, HTML/CSS/JavaScript.",
+            "C": "C++, C#, PHP y MongoDB.",
+            "D": "Ruby on Rails, PostgreSQL y Vue.js."
+          },
+          "opcion_correcta": "B",
+          "explicacion": "El texto menciona Python, Flask o FastAPI, SQLite, HTML/CSS/JavaScript, lectura de PDFs y algún modelo de IA local o por API como tecnologías que podrían encajar en el proyecto."
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-08T09:58:30.617123",
+    "nombre_examen": "",
+    "materia": "",
+    "dificultad": "Media",
+    "modelo": "gemma2:9b",
+    "examen": {
+      "materia": "Visión artificial y desarrollo de aplicaciones web",
+      "dificultad": "Media",
+      "preguntas": [
+        {
+          "enunciado": "Cuál es el objetivo principal del proyecto propuesto?",
+          "opciones": {
+            "A": "Crear una aplicación móvil que reconozca gestos para controlar un dispositivo.",
+            "B": "Desarrollar un sistema de seguridad basado en reconocimiento facial con webcam.",
+            "C": "Construir una herramienta que interprete gestos mediante MediaPipe y los traduzca a acciones en un ordenador.",
+            "D": "Implementar un modelo de inteligencia artificial para predecir el comportamiento humano a través de gestos."
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto menciona que el objetivo es crear una herramienta que reconozca gestos realizados con la mano delante de una webcam y los convierta en acciones reales dentro de un ordenador."
+        },
+        {
+          "enunciado": " ¿Qué módulo NO se menciona explícitamente como parte del proyecto?",
+          "opciones": {
+            "A": "Módulo de captura de webcam",
+            "B": "Módulo de interpretación de gestos",
+            "C": "Módulo de generación de código fuente automático",
+            "D": "Backend para servir la información"
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto propone módulos como captura de webcam, detección de manos, interpretación de gestos, acciones configurables, backend y interfaz web. No menciona un módulo específico para generación de código."
+        },
+        {
+          "enunciado": "¿Cuál es el propósito del sistema de logs en el proyecto?",
+          "opciones": {
+            "A": "Mostrar la posición exacta de las manos en tiempo real.",
+            "B": "Guardar un historial de los gestos realizados y las acciones ejecutadas.",
+            "C": "Realizar análisis estadísticos sobre los patrones de uso del sistema.",
+            "D": "Permitir a los usuarios compartir sus resultados con la comunidad."
+          },
+          "opcion_correcta": "B",
+          "explicacion": "El texto menciona que el sistema de logs registraría lo que ocurre durante la interacción con el sistema, incluyendo gestos y acciones ejecutadas."
+        },
+        {
+          "enunciado": "¿Qué acción NO se sugiere como posibilidad dentro del proyecto?",
+          "opciones": {
+            "A": "Enviar notificaciones por Telegram o Discord",
+            "B": "Ejecutar scripts locales en Python o Bash",
+            "C": "Generar automáticamente diseños de páginas web",
+            "D": "Enciende equipos de la red mediante Wake on LAN"
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto enumera acciones como enviar notificaciones, ejecutar scripts y encender equipos por Wake on LAN. No menciona la generación automática de diseños web."
+        },
+        {
+          "enunciado": "¿Cuál es la tecnología recomendada para capturar y procesar la imagen de la webcam?",
+          "opciones": {
+            "A": "TensorFlow",
+            "B": "PyTorch",
+            "C": "OpenCV",
+            "D": "Scikit-learn"
+          },
+          "opcion_correcta": "C",
+          "explicacion": "El texto menciona que OpenCV podría encajar bien para capturar y procesar la imagen de la webcam."
+        }
+      ]
+    }
   }
 ]
